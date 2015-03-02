@@ -1,7 +1,6 @@
 /**
  ** file: fournier.css
  ** label: Fournier
- ** columns: 1
  ** description: Side-by-Side boxes with simple colors on white.  Requires Google Fonts.  A modified version of Bellard-RT using custom Results Format.
  ** settings:
  **    csl-slplus-enhanced_results_string
@@ -216,6 +215,38 @@ div#radius_in_submit {
 /***********************
  * Map
  ***********************/
+/**** Map Box
+ **
+ ** Since we only use these div IDs when a static image is present
+ ** we start with the image shown and map hidden.  JQuery will flip
+ ** this for us.
+ **
+ **/
+div#map {
+    border-top: solid 1px #CCCCCC;
+    border-left: solid 1px #CCCCCC;
+    border-right: solid 1px #CCCCCC;
+    width: auto;
+}
+
+/* Don't let WordPress Mangle Map Images */
+div#map img {
+    background-color: transparent;
+    box-shadow: none;
+    border: none;
+    max-width: none;
+    opacity: 1.0;
+    visibility: visible;
+}
+/* Fix IE10 Rules */
+div#map .gm-style-cc > div {
+  word-wrap: normal;
+}
+/* Hide the default Google bubble shadow */
+div#map img[src='http://maps.gstatic.com/mapfiles/iws3.png'] {
+    display:none;
+}
+
 #map_table {
    border: none;
    margin: 0px;
@@ -228,6 +259,8 @@ div#radius_in_submit {
 div#slp_tagline {
     text-align: right;
     padding-right: 3px;
+    width: 100%;
+
 }
 #map_table_row {
     width: 100%;
@@ -235,11 +268,6 @@ div#slp_tagline {
 #map_table_cell {
     width: 100%;
 }
-/* Hide the default Google bubble shadow */
-div#map img[src='http://maps.gstatic.com/mapfiles/iws3.png'] {
-    display:none;
-}
-
 div.entry-content div#sl_div #map_table IMG {
 	max-width:none;
     box-shadow: none;
@@ -377,4 +405,40 @@ div.slp_result_block span.slp_result_directions {
 }
 div.slp_result_block span.slp_result_buffer {
     height: 25px;
+}
+
+
+/* Tagalong result icons */
+.results_line.location_iconarray > a {
+    display: inline-block;
+    height: auto;
+    width: auto;
+}
+#tagalong_category_selector {
+    display: block;
+    height: 2em;
+    width: 100%;
+}
+#tagalong_category_selector .category_selector.parent {
+    display: block;
+    float: left;
+}
+#tagalong_category_selector .category_selector.child {
+    display: none;
+    float: left;
+}
+#tagalong_legend {
+    border: none;
+    padding: 12px;
+}
+#tagalong_legend .legend_text {
+    display: inline-block;
+    margin-left: 6px;
+    margin-right: 20px;
+    vertical-align: middle;
+}
+#tagalong_legend .tagalong_legend_icon {
+    display: inline-block;
+    margin-bottom: 12px;
+    min-width: 190px;
 }

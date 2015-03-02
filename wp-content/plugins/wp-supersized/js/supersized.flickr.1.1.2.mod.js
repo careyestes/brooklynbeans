@@ -1,6 +1,6 @@
 /*
 	Supersized - Fullscreen Slideshow jQuery Plugin
-	Flickr Edition Version 1.1.2 - modified version, with bug fix for square photos (https://github.com/matt-richardson) and added ability to sort (https://github.com/mendhak)
+	Flickr Edition Version 1.1.2 - modified version, with bug fix for square photos (https://github.com/matt-richardson), added ability to sort (https://github.com/mendhak), added fit always option, and removed flickering on Apple devices (http://playground.benbarnett.net/jquery-animate-enhanced/)
 	www.buildinternet.com/project/supersized
 	
 	By Sam Dunn / One Mighty Roar (www.onemightyroar.com)
@@ -40,6 +40,7 @@
 			min_height		        :   0,		//Min height allowed (in pixels)
 			vertical_center         :   1,		//Vertically center background
 			horizontal_center       :   1,		//Horizontally center background
+                        fit_always		:   0,		// Image will never exceed browser width or height (Ignores min. dimensions)
 			fit_portrait         	:   0,		//Portrait images will not exceed browser height
 			fit_landscape			:   0,		//Landscape images will not exceed browser width  
 			
@@ -85,7 +86,16 @@
 		var inAnimation = false;	//Prevents animations from stacking
 		var isPaused = false;	//Tracks paused on/off
 		var image_path = options.image_path;		//Default image path for navigation control buttons
+                var animate_translate3d = false; // Animate option for Apple devices
 		
+                // Enhances the animate() function of jquery to get better results on Apple devices (iPad, iPhone)
+		if(isAppleDevice()) {
+		animate_translate3d = 'true';
+		}
+		else {
+		animate_translate3d = 'false';		
+		}
+
 		//Determine starting slide (random or defined)
 		if (options.start_slide){
 			var currentSlide = options.start_slide - 1;	//Default to defined start slide
@@ -251,7 +261,11 @@
 			
 			resizenow();	//Resize background image
 			
-			if (options.slide_captions) $('#slidecaption').html(options.slides[currentSlide].title);		//Pull caption from array
+			if (options.slide_captions) {
+				var slidecaptionWidth = $("body").width() - 500; 
+				$('#slidecaption').css("width", slidecaptionWidth); //Adjust width of slidecaption to avoid it pushing the controls out of the visible area
+				$('#slidecaption').html(options.slides[currentSlide].title);		//Pull caption from array
+			}
 			if (!(options.navigation)) $('#navigation').hide();	//Display navigation
 			
 			
@@ -530,7 +544,13 @@
 					var offset;
 					
 					/**Resize image to proper ratio**/
-					
+					if (options.fit_always){	// Fit always is enabled
+						if ((browserheight/browserwidth) > ratio){
+							resizeWidth();
+						} else {
+							resizeHeight();
+						}
+					}else{	// Normal Resize
 					if ((browserheight <= options.min_height) && (browserwidth <= options.min_width)){	//If window smaller than minimum width and height
 					
 						if ((browserheight/browserwidth) > ratio){
@@ -564,7 +584,7 @@
 						}
 						
 					}
-					
+                                        }
 					/**End Image Resize**/
 					
 					
@@ -731,24 +751,24 @@
 	    		    nextslide.fadeTo(options.transition_speed, 1, function(){ afterAnimation(); });
 	    		    break;
 	    		case 2:    //Slide Top
-	    		    nextslide.animate({top : -$(window).height()}, 0 ).show().animate({ top:0 }, options.transition_speed, function(){ afterAnimation(); });
+	    		    nextslide.animate({top : -$(window).height(), useTranslate3d: animate_translate3d}, 0 ).show().animate({ top:0 , useTranslate3d: animate_translate3d}, options.transition_speed, function(){ afterAnimation(); });
 	    		    break;
 	    		case 3:    //Slide Right
-	    			nextslide.animate({left : $(window).width()}, 0 ).show().animate({ left:0 }, options.transition_speed, function(){ afterAnimation(); });
+	    			nextslide.animate({left : $(window).width(), useTranslate3d: animate_translate3d}, 0 ).show().animate({ left:0 , useTranslate3d: animate_translate3d}, options.transition_speed, function(){ afterAnimation(); });
 	    			break;
 	    		case 4:    //Slide Bottom
-	    			nextslide.animate({top : $(window).height()}, 0 ).show().animate({ top:0 }, options.transition_speed, function(){ afterAnimation(); });
+	    			nextslide.animate({top : $(window).height(), useTranslate3d: animate_translate3d}, 0 ).show().animate({ top:0 , useTranslate3d: animate_translate3d}, options.transition_speed, function(){ afterAnimation(); });
 	    			break;
 	    		case 5:    //Slide Left
-	    			nextslide.animate({left : -$(window).width()}, 0 ).show().animate({ left:0 }, options.transition_speed, function(){ afterAnimation(); });
+	    			nextslide.animate({left : -$(window).width(), useTranslate3d: animate_translate3d}, 0 ).show().animate({ left:0 , useTranslate3d: animate_translate3d}, options.transition_speed, function(){ afterAnimation(); });
 	    			break;
 	    		case 6:    //Carousel Right
-	    			nextslide.animate({left : $(window).width()}, 0 ).show().animate({ left:0 }, options.transition_speed, function(){ afterAnimation(); });
-					currentslide.animate({ left: -$(window).width() }, options.transition_speed );
+	    			nextslide.animate({left : $(window).width(), useTranslate3d: animate_translate3d}, 0 ).show().animate({ left:0 , useTranslate3d: animate_translate3d}, options.transition_speed, function(){ afterAnimation(); });
+					currentslide.animate({ left: -$(window).width() , useTranslate3d: animate_translate3d}, options.transition_speed );
 	    			break;
 	    		case 7:    //Carousel Left
-	    			nextslide.animate({left : -$(window).width()}, 0 ).show().animate({ left:0 }, options.transition_speed, function(){ afterAnimation(); });
-					currentslide.animate({ left: $(window).width() }, options.transition_speed );
+	    			nextslide.animate({left : -$(window).width(), useTranslate3d: animate_translate3d}, 0 ).show().animate({ left:0 , useTranslate3d: animate_translate3d}, options.transition_speed, function(){ afterAnimation(); });
+					currentslide.animate({ left: $(window).width() , useTranslate3d: animate_translate3d}, options.transition_speed );
 	    			break;
 	    	
 	    	};
@@ -829,24 +849,24 @@
 	    		    nextslide.fadeTo(options.transition_speed, 1, function(){ afterAnimation(); });
 	    		    break;
 	    		case 2:    //Slide Top (reverse)
-	    		    nextslide.animate({top : $(window).height()}, 0 ).show().animate({ top:0 }, options.transition_speed, function(){ afterAnimation(); });
+	    		    nextslide.animate({top : $(window).height(), useTranslate3d: animate_translate3d}, 0 ).show().animate({ top:0 , useTranslate3d: animate_translate3d}, options.transition_speed, function(){ afterAnimation(); });
 	    		    break;
 	    		case 3:    //Slide Right (reverse)
-	    			nextslide.animate({left : -$(window).width()}, 0 ).show().animate({ left:0 }, options.transition_speed, function(){ afterAnimation(); });
+	    			nextslide.animate({left : -$(window).width(), useTranslate3d: animate_translate3d}, 0 ).show().animate({ left:0 , useTranslate3d: animate_translate3d}, options.transition_speed, function(){ afterAnimation(); });
 	    			break;
 	    		case 4:    //Slide Bottom (reverse)
-	    			nextslide.animate({top : -$(window).height()}, 0 ).show().animate({ top:0 }, options.transition_speed, function(){ afterAnimation(); });
+	    			nextslide.animate({top : -$(window).height(), useTranslate3d: animate_translate3d}, 0 ).show().animate({ top:0 , useTranslate3d: animate_translate3d}, options.transition_speed, function(){ afterAnimation(); });
 	    			break;
 	    		case 5:    //Slide Left (reverse)
-	    			nextslide.animate({left : $(window).width()}, 0 ).show().animate({ left:0 }, options.transition_speed, function(){ afterAnimation(); });
+	    			nextslide.animate({left : $(window).width(), useTranslate3d: animate_translate3d}, 0 ).show().animate({ left:0 , useTranslate3d: animate_translate3d}, options.transition_speed, function(){ afterAnimation(); });
 	    			break;
 	    		case 6:    //Carousel Right (reverse)
-	    			nextslide.animate({left : -$(window).width()}, 0 ).show().animate({ left:0 }, options.transition_speed, function(){ afterAnimation(); });
-					currentslide.animate({ left: $(window).width() }, options.transition_speed );
+	    			nextslide.animate({left : -$(window).width(), useTranslate3d: animate_translate3d}, 0 ).show().animate({ left:0 , useTranslate3d: animate_translate3d}, options.transition_speed, function(){ afterAnimation(); });
+					currentslide.animate({ left: $(window).width() , useTranslate3d: animate_translate3d}, options.transition_speed );
 	    			break;
 	    		case 7:    //Carousel Left (reverse)
-	    			nextslide.animate({left : $(window).width()}, 0 ).show().animate({ left:0 }, options.transition_speed, function(){ afterAnimation(); });
-					currentslide.animate({ left: -$(window).width() }, options.transition_speed );
+	    			nextslide.animate({left : $(window).width(), useTranslate3d: animate_translate3d}, 0 ).show().animate({ left:0 , useTranslate3d: animate_translate3d}, options.transition_speed, function(){ afterAnimation(); });
+					currentslide.animate({ left: -$(window).width() , useTranslate3d: animate_translate3d}, options.transition_speed );
 	    			break;	
 	    	
 	    	};
@@ -867,6 +887,14 @@
 			
 		}
 		
+                //Detection of Apple devices
+		function isAppleDevice(){
+		return (
+        (navigator.userAgent.toLowerCase().indexOf("ipad") > -1) ||
+        (navigator.userAgent.toLowerCase().indexOf("iphone") > -1) ||
+        (navigator.userAgent.toLowerCase().indexOf("ipod") > -1)
+			);
+		};
 	};
 		
 })(jQuery);

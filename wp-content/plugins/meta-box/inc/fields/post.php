@@ -5,9 +5,9 @@ defined( 'ABSPATH' ) || exit;
 // Make sure "select" field is loaded
 require_once RWMB_FIELDS_DIR . 'select-advanced.php';
 
-if ( !class_exists( 'RWMB_Post_Field' ) )
+if ( ! class_exists( 'RWMB_Post_Field' ) )
 {
-	class RWMB_Post_Field
+	class RWMB_Post_Field extends RWMB_Field
 	{
 		/**
 		 * Enqueue scripts and styles
@@ -22,23 +22,21 @@ if ( !class_exists( 'RWMB_Post_Field' ) )
 		/**
 		 * Get field HTML
 		 *
-		 * @param string $html
-		 * @param mixed  $meta
-		 * @param array  $field
+		 * @param mixed $meta
+		 * @param array $field
 		 *
 		 * @return string
 		 */
-		static function html( $html, $meta, $field )
+		static function html( $meta, $field )
 		{
 			$field['options'] = self::get_options( $field );
 			switch ( $field['field_type'] )
 			{
 				case 'select':
-					return RWMB_Select_Field::html( $html, $meta, $field );
-					break;
+					return RWMB_Select_Field::html( $meta, $field );
 				case 'select_advanced':
 				default:
-					return RWMB_Select_Advanced_Field::html( $html, $meta, $field );
+					return RWMB_Select_Advanced_Field::html( $meta, $field );
 			}
 		}
 
@@ -51,10 +49,10 @@ if ( !class_exists( 'RWMB_Post_Field' ) )
 		 */
 		static function normalize_field( $field )
 		{
-			$default_post_type = __( 'Post', 'rwmb' );
+			$default_post_type = __( 'Post', 'meta-box' );
 			if ( is_string( $field['post_type'] ) )
 			{
-				$post_type_object = get_post_type_object( $field['post_type'] );
+				$post_type_object  = get_post_type_object( $field['post_type'] );
 				$default_post_type = $post_type_object->labels->singular_name;
 			}
 
@@ -62,21 +60,21 @@ if ( !class_exists( 'RWMB_Post_Field' ) )
 				'post_type'  => 'post',
 				'field_type' => 'select_advanced',
 				'parent'     => false,
-				'query_args' => array()
+				'query_args' => array(),
 			) );
 
-			$field['std'] = empty( $field['std'] ) ? sprintf( __( 'Select a %s', 'rwmb' ), $default_post_type ) : $field['std'];
+			$field['std'] = empty( $field['std'] ) ? sprintf( __( 'Select a %s', 'meta-box' ), $default_post_type ) : $field['std'];
 
 			if ( $field['parent'] )
 			{
-				$field['multiple'] = false;
+				$field['multiple']   = false;
 				$field['field_name'] = 'parent_id';
 			}
 
 			$field['query_args'] = wp_parse_args( $field['query_args'], array(
 				'post_type'      => $field['post_type'],
 				'post_status'    => 'publish',
-				'posts_per_page' => '-1'
+				'posts_per_page' => - 1,
 			) );
 
 			switch ( $field['field_type'] )
@@ -97,21 +95,22 @@ if ( !class_exists( 'RWMB_Post_Field' ) )
 		 *
 		 * @see "save" method for better understanding
 		 *
-		 * @param $meta
 		 * @param $post_id
 		 * @param $saved
 		 * @param $field
 		 *
 		 * @return array
 		 */
-		static function meta( $meta, $post_id, $saved, $field )
+		static function meta( $post_id, $saved, $field )
 		{
 			if ( isset( $field['parent'] ) && $field['parent'] )
 			{
 				$post = get_post( $post_id );
+
 				return $post->post_parent;
 			}
-			return RWMB_Select_Field::meta( $meta, $post_id, $saved, $field );
+
+			return RWMB_Select_Field::meta( $post_id, $saved, $field );
 		}
 
 		/**
@@ -140,12 +139,17 @@ if ( !class_exists( 'RWMB_Post_Field' ) )
 		 */
 		static function get_options( $field )
 		{
-			$results = get_posts( $field['query_args'] );
 			$options = array();
-			foreach ( $results as $result )
+			$query   = new WP_Query( $field['query_args'] );
+			if ( $query->have_posts() )
 			{
-				$options[$result->ID] = get_the_title( $result->ID );
+				while ( $query->have_posts() )
+				{
+					$post               = $query->next_post();
+					$options[$post->ID] = $post->post_title;
+				}
 			}
+
 			return $options;
 		}
 	}

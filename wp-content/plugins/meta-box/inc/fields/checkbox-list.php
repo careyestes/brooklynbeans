@@ -4,22 +4,21 @@ defined( 'ABSPATH' ) || exit;
 
 if ( ! class_exists( 'RWMB_Checkbox_List_Field' ) )
 {
-	class RWMB_Checkbox_List_Field
+	class RWMB_Checkbox_List_Field extends RWMB_Field
 	{
 		/**
 		 * Get field HTML
 		 *
-		 * @param string $html
-		 * @param mixed  $meta
-		 * @param array  $field
+		 * @param mixed $meta
+		 * @param array $field
 		 *
 		 * @return string
 		 */
-		static function html( $html, $meta, $field )
+		static function html( $meta, $field )
 		{
 			$meta = (array) $meta;
 			$html = array();
-			$tpl = '<label><input type="checkbox" class="rwmb-checkbox-list" name="%s" value="%s" %s /> %s</label>';
+			$tpl  = '<label><input type="checkbox" class="rwmb-checkbox-list" name="%s" value="%s"%s> %s</label>';
 
 			foreach ( $field['options'] as $value => $label )
 			{
@@ -31,7 +30,8 @@ if ( ! class_exists( 'RWMB_Checkbox_List_Field' ) )
 					$label
 				);
 			}
-			return implode( '<br />', $html );
+
+			return implode( '<br>', $html );
 		}
 
 		/**
@@ -43,19 +43,16 @@ if ( ! class_exists( 'RWMB_Checkbox_List_Field' ) )
 		 *
 		 * TODO: A good way to ALWAYS save values in single entry in DB, while maintaining backward compatibility
 		 *
-		 * @param $meta
 		 * @param $post_id
 		 * @param $saved
 		 * @param $field
 		 *
 		 * @return array
 		 */
-		static function meta( $meta, $post_id, $saved, $field )
+		static function meta( $post_id, $saved, $field )
 		{
 			$meta = get_post_meta( $post_id, $field['id'], $field['clone'] );
-
-			$meta = ( !$saved && '' === $meta || array() === $meta ) ? $field['std'] : $meta;
-
+			$meta = ( ! $saved && '' === $meta || array() === $meta ) ? $field['std'] : $meta;
 			$meta = array_map( 'esc_attr', (array) $meta );
 
 			return $meta;
@@ -75,9 +72,10 @@ if ( ! class_exists( 'RWMB_Checkbox_List_Field' ) )
 		 */
 		static function save( $new, $old, $post_id, $field )
 		{
-			if ( !$field['clone'] )
+			if ( ! $field['clone'] )
 			{
-				RW_Meta_Box::save( $new, $old, $post_id, $field );
+				parent::save( $new, $old, $post_id, $field );
+
 				return;
 			}
 
@@ -98,8 +96,9 @@ if ( ! class_exists( 'RWMB_Checkbox_List_Field' ) )
 		{
 			$field['multiple']   = true;
 			$field['field_name'] = $field['id'];
-			if ( !$field['clone'] )
+			if ( ! $field['clone'] )
 				$field['field_name'] .= '[]';
+
 			return $field;
 		}
 	}

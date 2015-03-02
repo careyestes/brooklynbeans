@@ -8,42 +8,58 @@
 	$msg = ''; // used to display a success message on updates
 	if ( isset($_POST['wp-supersized_submit_functionality'] )) { // if submitted, process results for each tab
 	$newoptions['slideshow'] = strip_tags(stripslashes($_POST["slideshow"]));
-	$newoptions['autoplay'] = strip_tags(stripslashes($_POST["autoplay"]));
+	$newoptions['autoplay'] = (int) strip_tags(stripslashes($_POST["autoplay"]));
 	$newoptions['start_slide'] = strip_tags(stripslashes($_POST["start_slide"]));
-	$newoptions['random'] = strip_tags(stripslashes($_POST["random"]));
+	$newoptions['random'] = (int) strip_tags(stripslashes($_POST["random"]));
 	$newoptions['slide_interval'] = strip_tags(stripslashes($_POST["slide_interval"]));
 	$newoptions['transition'] = strip_tags(stripslashes($_POST["transition"]));
 	$newoptions['transition_speed'] = strip_tags(stripslashes($_POST["transition_speed"]));
-	$newoptions['new_window'] = strip_tags(stripslashes($_POST["new_window"]));
-	$newoptions['pause_hover'] = strip_tags(stripslashes($_POST["pause_hover"]));
-        $newoptions['stop_loop'] = strip_tags(stripslashes($_POST["stop_loop"]));
-	$newoptions['keyboard_nav'] = strip_tags(stripslashes($_POST["keyboard_nav"]));
+	$newoptions['new_window'] = (int) strip_tags(stripslashes($_POST["new_window"]));
+	$newoptions['pause_hover'] = (int) strip_tags(stripslashes($_POST["pause_hover"]));
+        $newoptions['stop_loop'] = (int) strip_tags(stripslashes($_POST["stop_loop"]));
+	$newoptions['keyboard_nav'] = (int) strip_tags(stripslashes($_POST["keyboard_nav"]));
 	$newoptions['performance'] = strip_tags(stripslashes($_POST["performance"]));
-	$newoptions['image_protect'] = strip_tags(stripslashes($_POST["image_protect"]));
+	$newoptions['image_protect'] = (int) strip_tags(stripslashes($_POST["image_protect"]));
         $newoptions['background_url'] = strip_tags(stripslashes($_POST["background_url"]));
         }
         if ( isset($_POST['wp-supersized_submit_size_and_position'] )) {
         $newoptions['min_width'] = strip_tags(stripslashes($_POST["min_width"]));
 	$newoptions['min_height'] = strip_tags(stripslashes($_POST["min_height"]));
-	$newoptions['vertical_center'] = strip_tags(stripslashes($_POST["vertical_center"]));
-	$newoptions['horizontal_center'] = strip_tags(stripslashes($_POST["horizontal_center"]));
-        $newoptions['fit_always'] = strip_tags(stripslashes($_POST["fit_always"]));
-	$newoptions['fit_portrait'] = strip_tags(stripslashes($_POST["fit_portrait"]));
-	$newoptions['fit_landscape'] = strip_tags(stripslashes($_POST["fit_landscape"]));
-        }
+	$newoptions['vertical_center'] = (int) strip_tags(stripslashes($_POST["vertical_center"]));
+	$newoptions['horizontal_center'] = (int) strip_tags(stripslashes($_POST["horizontal_center"]));
+            if (strip_tags(stripslashes($_POST["fit_image"])) == '1') {
+                $newoptions['fit_always'] = 1;
+                $newoptions['fit_portrait'] = 0;
+                $newoptions['fit_landscape'] = 0;            
+            }
+            elseif (strip_tags(stripslashes($_POST["fit_image"])) == '2') {
+                $newoptions['fit_always'] = 0;
+                $newoptions['fit_portrait'] = 1;
+                $newoptions['fit_landscape'] = 0;            
+            }
+            elseif (strip_tags(stripslashes($_POST["fit_image"])) == '3') {
+                $newoptions['fit_always'] = 0;
+                $newoptions['fit_portrait'] = 0;
+                $newoptions['fit_landscape'] = 1;            
+            }
+             elseif (strip_tags(stripslashes($_POST["fit_image"])) == '4') {
+                $newoptions['fit_always'] = 0;
+                $newoptions['fit_portrait'] = 0;
+                $newoptions['fit_landscape'] = 0;            
+            }        }
 	if ( isset($_POST['wp-supersized_submit_components'] )) {
-        $newoptions['navigation'] = strip_tags(stripslashes($_POST["navigation"]));
-	$newoptions['thumbnail_navigation'] = strip_tags(stripslashes($_POST["thumbnail_navigation"]));
-        $newoptions['thumb_links'] = strip_tags(stripslashes($_POST["thumb_links"]));
+        $newoptions['navigation'] = (int) strip_tags(stripslashes($_POST["navigation"]));
+	$newoptions['thumbnail_navigation'] = (int) strip_tags(stripslashes($_POST["thumbnail_navigation"]));
+        $newoptions['thumb_links'] = (int) strip_tags(stripslashes($_POST["thumb_links"]));
         $newoptions['thumbnail_suffix'] = strip_tags(stripslashes($_POST["thumbnail_suffix"]));
-	$newoptions['navigation_controls'] = strip_tags(stripslashes($_POST["navigation_controls"]));
-	$newoptions['slide_counter'] = strip_tags(stripslashes($_POST["slide_counter"]));
-	$newoptions['slide_captions'] = strip_tags(stripslashes($_POST["slide_captions"]));
+	$newoptions['navigation_controls'] = (int) strip_tags(stripslashes($_POST["navigation_controls"]));
+	$newoptions['slide_counter'] = (int) strip_tags(stripslashes($_POST["slide_counter"]));
+	$newoptions['slide_captions'] = (int) strip_tags(stripslashes($_POST["slide_captions"]));
         $newoptions['slide_links'] = strip_tags(stripslashes($_POST["slide_links"]));
-        $newoptions['progress_bar'] =  strip_tags(stripslashes($_POST["progress_bar"]));
-        $newoptions['mouse_scrub'] = strip_tags(stripslashes($_POST["mouse_scrub"]));
-        $newoptions['thumb_tray'] = strip_tags(stripslashes($_POST["thumb_tray"]));
-        $newoptions['tray_visible'] = strip_tags(stripslashes($_POST["tray_visible"]));
+        $newoptions['progress_bar'] =  (int) strip_tags(stripslashes($_POST["progress_bar"]));
+        $newoptions['mouse_scrub'] = (int) strip_tags(stripslashes($_POST["mouse_scrub"]));
+        $newoptions['thumb_tray'] = (int) strip_tags(stripslashes($_POST["thumb_tray"]));
+        $newoptions['tray_visible'] = (int) strip_tags(stripslashes($_POST["tray_visible"]));
        }
 	if (isset($_POST['wp-supersized_submit_flickr'] )) {
         $newoptions['flickr_source'] = strip_tags(stripslashes($_POST["flickr_source"]));
@@ -87,21 +103,21 @@
         if ($ngg_gallery_selection != 'none') $newoptions['default_dir'] = $ngg_gallery_selection;
         else $newoptions['default_dir'] = trim(strip_tags(stripslashes($_POST["default_dir"])),'/');
         }
-        $newoptions['debugging_mode'] = strip_tags(stripslashes($_POST["debugging_mode"]));
+        $newoptions['debugging_mode'] = (int) strip_tags(stripslashes($_POST["debugging_mode"]));
         }
 	if ( isset($_POST['wp-supersized_submit_display'] )) {
-        $newoptions['show_on_page']['everywhere'] = strip_tags(stripslashes($_POST["everywhere"])); //NEW
-	$newoptions['show_on_page']['allposts'] = strip_tags(stripslashes($_POST["allposts"]));
-	$newoptions['show_on_page']['homepage'] = strip_tags(stripslashes($_POST["homepage"]));
-	$newoptions['show_on_page']['allpages'] = strip_tags(stripslashes($_POST["allpages"]));
-	$newoptions['show_on_page']['404_page'] = strip_tags(stripslashes($_POST["404_page"]));
-	$newoptions['show_on_page']['search_results'] = strip_tags(stripslashes($_POST["search_results"]));
-	$newoptions['show_on_page']['front_only'] = strip_tags(stripslashes($_POST["front_only"]));
-	$newoptions['show_on_page']['sticky_post'] = strip_tags(stripslashes($_POST["sticky_post"]));
-	$newoptions['show_on_page']['category_archive'] = strip_tags(stripslashes($_POST["category_archive"]));
-	$newoptions['show_on_page']['tag_archive'] = strip_tags(stripslashes($_POST["tag_archive"]));
-        $newoptions['show_on_page']['date_archive'] = strip_tags(stripslashes($_POST["date_archive"]));
-        $newoptions['show_on_page']['any_archive'] = strip_tags(stripslashes($_POST["any_archive"]));
+        $newoptions['show_on_page']['everywhere'] = (int) strip_tags(stripslashes($_POST["everywhere"]));
+	$newoptions['show_on_page']['allposts'] = (int) strip_tags(stripslashes($_POST["allposts"]));
+	$newoptions['show_on_page']['homepage'] = (int) strip_tags(stripslashes($_POST["homepage"]));
+	$newoptions['show_on_page']['allpages'] = (int) strip_tags(stripslashes($_POST["allpages"]));
+	$newoptions['show_on_page']['404_page'] = (int) strip_tags(stripslashes($_POST["404_page"]));
+	$newoptions['show_on_page']['search_results'] = (int) strip_tags(stripslashes($_POST["search_results"]));
+	$newoptions['show_on_page']['front_only'] = (int) strip_tags(stripslashes($_POST["front_only"]));
+	$newoptions['show_on_page']['sticky_post'] = (int) strip_tags(stripslashes($_POST["sticky_post"]));
+	$newoptions['show_on_page']['category_archive'] = (int) strip_tags(stripslashes($_POST["category_archive"]));
+	$newoptions['show_on_page']['tag_archive'] = (int) strip_tags(stripslashes($_POST["tag_archive"]));
+        $newoptions['show_on_page']['date_archive'] = (int) strip_tags(stripslashes($_POST["date_archive"]));
+        $newoptions['show_on_page']['any_archive'] = (int) strip_tags(stripslashes($_POST["any_archive"]));
 	$newoptions['show_in_post_id'] = explode(',',trim(str_replace(' ', '', strip_tags(stripslashes($_POST["show_in_post_id"]))),',')); //removes commas, spaces and convert to array
 	$newoptions['show_in_page_id'] = explode(',',trim(str_replace(' ', '', strip_tags(stripslashes($_POST["show_in_page_id"]))),',')); //removes commas, spaces and convert to array
 	$newoptions['show_in_category_id'] = explode(',',trim(str_replace(' ', '', strip_tags(stripslashes($_POST["show_in_category_id"]))),',')); //removes commas, spaces and convert to array
@@ -110,7 +126,7 @@
         $templates = get_page_templates();        
 	foreach (array_keys( $templates ) as $template )
 	{
-	$newoptions['show_in_template'][$template] = strip_tags(stripslashes($_POST['show_in_template'][$template]));
+	$newoptions['show_in_template'][$template] = (int) strip_tags(stripslashes($_POST['show_in_template'][$template]));
 	}
         }
 	// Save if there were any changes
@@ -121,7 +137,7 @@
 	}
     
         if ( isset($_POST['reset_options'] )) {
-                $newoptions['reset_options'] = true;
+                $newoptions['reset_options'] = 1;
                 update_option('wp-supersized_options', $newoptions);
                 WPSupersized::install();
                 $msg = '<div class="updated"><p><strong>'.__('WP Supersized options are back to default!','WPSupersized').'</strong></p></div>';
@@ -230,8 +246,8 @@
 	echo '<tr valign="top"><th scope="row">';
         _e('Autoplay on/off','WPSupersized');
         echo '</th>';
-	echo '<td><input type="checkbox" name="autoplay" value="true"';
-	if( $options['autoplay'] == true ){ echo ' checked="checked"'; }
+	echo '<td><input type="checkbox" name="autoplay" value="1"';
+	if( $options['autoplay'] ){ echo ' checked="checked"'; }
 	echo '></input> ';
         _e('Slideshow starts playing automatically','WPSupersized');
         echo ' (';
@@ -252,8 +268,8 @@
 	echo '<tr valign="top"><th scope="row">';
         _e('Random slides','WPSupersized');
         echo '</th>';
-	echo '<td><input type="checkbox" name="random" value="true"';
-	if( $options['random'] == true ){ echo ' checked="checked"'; }
+	echo '<td><input type="checkbox" name="random" value="1"';
+	if( $options['random'] ){ echo ' checked="checked"'; }
 	echo '></input> ';
         _e('Randomize slide order (Ignores start slide, default is off)','WPSupersized');
         echo '</td></tr>';
@@ -319,8 +335,8 @@
 	echo '<tr valign="top"><th scope="row">';
         _e('New window','WPSupersized');
         echo '</th>';
-	echo '<td><input type="checkbox" name="new_window" value="true"';
-	if( $options['new_window'] == true ){ echo ' checked="checked"'; }
+	echo '<td><input type="checkbox" name="new_window" value="1"';
+	if( $options['new_window'] ){ echo ' checked="checked"'; }
 	echo '></input> ';
         _e('Image links open in new window/tab','WPSupersized');
         echo ' (';
@@ -330,8 +346,8 @@
 	// pause_hover
 	echo '<tr valign="top"><th scope="row">';
         _e('Pause on hover','WPSupersized');
-	echo '</th><td><input type="checkbox" name="pause_hover" value="true"';
-	if( $options['pause_hover'] == true ){ echo ' checked="checked"'; }
+	echo '</th><td><input type="checkbox" name="pause_hover" value="1"';
+	if( $options['pause_hover'] ){ echo ' checked="checked"'; }
 	echo '></input> ';
         _e('Pause slideshow on hover','WPSupersized');
         echo ' (';
@@ -341,8 +357,8 @@
 	// stop_loop
 	echo '<tr valign="top"><th scope="row">';
         _e('Stop loop','WPSupersized');
-	echo '</th><td><input type="checkbox" name="stop_loop" value="true"';
-	if( $options['stop_loop'] == true ){ echo ' checked="checked"'; }
+	echo '</th><td><input type="checkbox" name="stop_loop" value="1"';
+	if( $options['stop_loop'] ){ echo ' checked="checked"'; }
 	echo '></input> ';
         _e('Pauses slideshow upon reaching the last slide','WPSupersized');
         echo ' (';
@@ -352,8 +368,8 @@
 	// keyboard_nav
 	echo '<tr valign="top"><th scope="row">';
         _e('Keyboard navigation','WPSupersized');
-	echo '</th><td><input type="checkbox" name="keyboard_nav" value="true"';
-	if( $options['keyboard_nav'] == true ){ echo ' checked="checked"'; }
+	echo '</th><td><input type="checkbox" name="keyboard_nav" value="1"';
+	if( $options['keyboard_nav'] ){ echo ' checked="checked"'; }
 	echo '></input> (';
         _e('default is on','WPSupersized');
         echo ')</td></tr>';
@@ -387,8 +403,8 @@
 	// image_protect
 	echo '<tr valign="top"><th scope="row">';
         _e('Image protection','WPSupersized');
-	echo '</th><td><input type="checkbox" name="image_protect" value="true"';
-	if( $options['image_protect'] == true ){ echo ' checked="checked"'; }
+	echo '</th><td><input type="checkbox" name="image_protect" value="1"';
+	if( $options['image_protect'] ){ echo ' checked="checked"'; }
 	echo '></input> ';
         _e('Disables image dragging and right click with Javascript','WPSupersized');
         echo ' (';
@@ -399,7 +415,7 @@
 	echo '<tr valign="top"><th scope="row">';
         _e('Background URL','WPSupersized');
 	echo '</th><td>http://<input type="text" name="background_url" value="'.$options['background_url'].'" size="50"></input><br />';
-        _e('Type here the URL of the link you want to access when clicking on the background image (www.example.com). Leave this field empty if your do not want any link to be used. Default is empty.','WPSupersized');
+        _e('Type here the URL of the link you want to access when clicking on the background image (www.example.com). Leave this field empty if you do not want any link to be used. Default is empty.','WPSupersized');
         echo '</td></tr>';
 
         // close stuff and submit data
@@ -424,54 +440,54 @@
 	echo '<table class="form-table">';
 	echo '<tr valign="top"><th scope="row">';
         _e('Select the page(s)/post(s) where Supersized should be used','WPSupersized');
-	echo '</th><td><input type="checkbox" name="everywhere" value="true"';
-	if( $options['show_on_page']['everywhere'] == true ){ echo ' checked="checked"'; }
+	echo '</th><td><input type="checkbox" name="everywhere" value="1"';
+	if( $options['show_on_page']['everywhere'] ){ echo ' checked="checked"'; }
 	echo '></input> ';
         _e('Everywhere (except Admin pages)','WPSupersized');
-	echo '<br /><input type="checkbox" name="allpages" value="true"';
-	if( $options['show_on_page']['allpages'] == true ){ echo ' checked="checked"'; }
+	echo '<br /><input type="checkbox" name="allpages" value="1"';
+	if( $options['show_on_page']['allpages'] ){ echo ' checked="checked"'; }
 	echo '></input> ';
         _e('All pages (except homepage)','WPSupersized');
-	echo '<br /><input type="checkbox" name="homepage" value="true"';
-	if( $options['show_on_page']['homepage'] == true ){ echo ' checked="checked"'; }
+	echo '<br /><input type="checkbox" name="homepage" value="1"';
+	if( $options['show_on_page']['homepage'] ){ echo ' checked="checked"'; }
 	echo '></input> ';
         _e('Homepage (of your blog)','WPSupersized');
-	echo '<br /><input type="checkbox" name="front_only" value="true"';
-	if( $options['show_on_page']['front_only'] == true ){ echo ' checked="checked"'; }
+	echo '<br /><input type="checkbox" name="front_only" value="1"';
+	if( $options['show_on_page']['front_only'] ){ echo ' checked="checked"'; }
 	echo '></input> ';
         _e('Front page (landing page)','WPSupersized');
-	echo '<br /><input type="checkbox" name="404_page" value="true"';
-	if( $options['show_on_page']['404_page'] == true ){ echo ' checked="checked"'; }
+	echo '<br /><input type="checkbox" name="404_page" value="1"';
+	if( $options['show_on_page']['404_page'] ){ echo ' checked="checked"'; }
 	echo '></input> ';
         _e('Error page (404)','WPSupersized');
-        echo '<br /><input type="checkbox" name="search_results" value="true"';
-	if( $options['show_on_page']['search_results'] == true ){ echo ' checked="checked"'; }
+        echo '<br /><input type="checkbox" name="search_results" value="1"';
+	if( $options['show_on_page']['search_results'] ){ echo ' checked="checked"'; }
 	echo '></input> ';
         _e('Search results page','WPSupersized');
-	echo '<br /><input type="checkbox" name="allposts" value="true"';
-	if( $options['show_on_page']['allposts'] == true ){ echo ' checked="checked"'; }
+	echo '<br /><input type="checkbox" name="allposts" value="1"';
+	if( $options['show_on_page']['allposts'] ){ echo ' checked="checked"'; }
 	echo '></input> ';
         _e('All posts (not pages)','WPSupersized');
         echo '<br />';
         _e('If you select <em>All posts</em>, <em>All pages</em>, or <em>Everywhere</em>, posts/pages with a <em>SupersizedDir</em> custom field will show images from the selected folder while all others will show the default directory images.','WPSupersized');
-	echo '<br /><input type="checkbox" name="sticky_post" value="true"';
-	if( $options['show_on_page']['sticky_post'] == true ){ echo ' checked="checked"'; }
+	echo '<br /><input type="checkbox" name="sticky_post" value="1"';
+	if( $options['show_on_page']['sticky_post'] ){ echo ' checked="checked"'; }
 	echo '></input> ';
         _e('Sticky post','WPSupersized');
-	echo '<br /><input type="checkbox" name="category_archive" value="true"';
-	if( $options['show_on_page']['category_archive'] == true ){ echo ' checked="checked"'; }
+	echo '<br /><input type="checkbox" name="category_archive" value="1"';
+	if( $options['show_on_page']['category_archive'] ){ echo ' checked="checked"'; }
 	echo '></input> ';
         _e('Category archive','WPSupersized');
-        echo '<br /><input type="checkbox" name="tag_archive" value="true"';
-	if( $options['show_on_page']['tag_archive'] == true ){ echo ' checked="checked"'; }
+        echo '<br /><input type="checkbox" name="tag_archive" value="1"';
+	if( $options['show_on_page']['tag_archive'] ){ echo ' checked="checked"'; }
 	echo '></input> ';
         _e('Tag archive','WPSupersized');
-        echo '<br /><input type="checkbox" name="date_archive" value="true"';
-        if( $options['show_on_page']['date_archive'] == true ){ echo ' checked="checked"'; }
+        echo '<br /><input type="checkbox" name="date_archive" value="1"';
+        if( $options['show_on_page']['date_archive'] ){ echo ' checked="checked"'; }
         echo '></input> ';
         _e('Date archive','WPSupersized');
-        echo '<br /><input type="checkbox" name="any_archive" value="true"';
-        if( $options['show_on_page']['any_archive'] == true ){ echo ' checked="checked"'; }
+        echo '<br /><input type="checkbox" name="any_archive" value="1"';
+        if( $options['show_on_page']['any_archive'] ){ echo ' checked="checked"'; }
         echo '></input> ';
         _e('Any archive','WPSupersized');
 
@@ -488,8 +504,8 @@
         if ($templates) {
 	foreach (array_keys( $templates ) as $template )
             {
-            echo '<input type="checkbox" name="show_in_template['.$template.']" value="true"';
-            if( $options['show_in_template'][$template] == true ){ echo ' checked="checked"'; }
+            echo '<input type="checkbox" name="show_in_template['.$template.']" value="1"';
+            if( $options['show_in_template'][$template] ){ echo ' checked="checked"'; }
             echo '></input> '.$template.'<br />';
             }
         } else {echo'<p>';
@@ -609,8 +625,8 @@
 	echo '<tr valign="top"><th scope="row">';
         _e('Debugging mode on/off','WPSupersized');
         echo '</th>';
-	echo '<td><input type="checkbox" name="debugging_mode" value="true"';
-	if( $options['debugging_mode'] == true ){ echo ' checked="checked"'; }
+	echo '<td><input type="checkbox" name="debugging_mode" value="1"';
+	if( $options['debugging_mode'] ){ echo ' checked="checked"'; }
 	echo '></input> ';
         _e('When on, WP Supersized will generate comments in the source of the web page with some variables values, useful to find out the origin of file path problems. If you have problems with displaying your images, send me these comments from the source of the page and I will be able to help you more easily.<br /><strong>This is not necessary for normal operation. Use only if you have trouble with displaying your images.</strong>','WPSupersized');
         echo '<br />(';
@@ -653,8 +669,8 @@
 	// vertical_center
 	echo '<tr valign="top"><th scope="row">';
         _e('Center the background vertically','WPSupersized');
-	echo '</th><td><input type="checkbox" name="vertical_center" value="true"';
-	if( $options['vertical_center'] == true ){ echo ' checked="checked"'; }
+	echo '</th><td><input type="checkbox" name="vertical_center" value="1"';
+	if( $options['vertical_center'] ){ echo ' checked="checked"'; }
 	echo '></input> (';
         _e('default is on','WPSupersized');
         echo ')</td></tr>';
@@ -662,44 +678,46 @@
 	// horizontal_center
 	echo '<tr valign="top"><th scope="row">';
         _e('Center the background horizontally','WPSupersized');
-	echo '</th><td><input type="checkbox" name="horizontal_center" value="true"';
-	if( $options['horizontal_center'] == true ){ echo ' checked="checked"'; }
+	echo '</th><td><input type="checkbox" name="horizontal_center" value="1"';
+	if( $options['horizontal_center'] ){ echo ' checked="checked"'; }
 	echo '></input> (';
         _e('default is on','WPSupersized');
         echo ')</td></tr>';
 
-        // fit_always
+        
+        // fit_image
 	echo '<tr valign="top"><th scope="row">';
-        _e('Always fit','WPSupersized');
-	echo '</th><td><input type="checkbox" name="fit_always" value="true"';
-	if( $options['fit_always'] == true ){ echo ' checked="checked"'; }
-	echo '></input> ';
-        _e('Prevents the image from ever being cropped. Ignores minimum width and height.','WPSupersized');
-        echo' (';
-        _e('default is off','WPSupersized');
-        echo ')</td></tr>';
-
-	// fit_portrait
-	echo '<tr valign="top"><th scope="row">';
+        _e('Fit image','WPSupersized');
+        echo '</th>';
+	echo '<td><select id="fit_image" name="fit_image"';
+	$selected = ($options['fit_always']) ? 'selected="selected"' : '';
+	echo "><option value='1' $selected>";
+        _e('Fit always','WPSupersized');
+        echo '</option>';
+	$selected = ($options['fit_portrait']) ? 'selected="selected"' : '';
+	echo "<option value='2' $selected>";
         _e('Fit portrait','WPSupersized');
-	echo '</th><td><input type="checkbox" name="fit_portrait" value="true"';
-	if( $options['fit_portrait'] == true ){ echo ' checked="checked"'; }
-	echo '></input> ';
-        _e('Portrait images will not exceed browser height','WPSupersized');
-        echo ' (';
-        _e('default is on','WPSupersized');
-        echo ')</td></tr>';
-	
-	// fit_landscape
-	echo '<tr valign="top"><th scope="row">';
+        echo '</option>';
+	$selected = ($options['fit_landscape']) ? 'selected="selected"' : '';
+	echo "<option value='3' $selected>";
         _e('Fit landscape','WPSupersized');
-	echo '</th><td><input type="checkbox" name="fit_landscape" value="true"';
-	if( $options['fit_landscape'] == true ){ echo ' checked="checked"'; }
-	echo '></input> ';
-        _e('Landscape images will not exceed browser width','WPSupersized');
-        echo ' (';
-        _e('default is off','WPSupersized');
-        echo ')</td></tr>';
+        echo '</option>';
+	$selected = (!$options['fit_landscape'] && !$options['fit_portrait'] && !$options['fit_always']) ? 'selected="selected"' : '';
+	echo "<option value='4' $selected>";
+        _e('Always fill screen','WPSupersized');
+        echo '</option>';
+	echo '</select> (';
+        _e('default is Fit portrait','WPSupersized');
+        echo ')<br />';
+        _e('Fit always prevents the image from ever being cropped. Ignores minimum width and height.','WPSupersized');
+        echo '<br />';
+        _e('Fit portrait prevents portrait images from exceeding browser height','WPSupersized');
+        echo '<br />';
+        _e('Fit landscape prevents landscape images from exceeding browser width','WPSupersized');
+        echo '<br />';
+        _e('Always fill screen crops the image but will not leave any black bands above/below or left/right','WPSupersized');
+
+        echo'</td></tr>';
 
         // close stuff and submit data
 	echo '<input type="hidden" name="wp-supersized_submit_size_and_position" value="true"></input>';
@@ -726,8 +744,8 @@
 	// navigation_controls
 	echo '<tr valign="top"><th scope="row">';
         _e('Navigation arrows','WPSupersized');
-	echo '</th><td><input type="checkbox" name="navigation_controls" value="true"';
-	if( $options['navigation_controls'] == true ){ echo ' checked="checked"'; }
+	echo '</th><td><input type="checkbox" name="navigation_controls" value="1"';
+	if( $options['navigation_controls']){ echo ' checked="checked"'; }
 	echo '></input> ';
         _e('Displays arrows for navigation','WPSupersized');
         echo ' (';
@@ -737,8 +755,8 @@
 	// navigation
 	echo '<tr valign="top"><th scope="row">';
         _e('Slideshow controls','WPSupersized');
-	echo '</th><td><input type="checkbox" name="navigation" value="true"';
-	if( $options['navigation'] == true ){ echo ' checked="checked"'; }
+	echo '</th><td><input type="checkbox" name="navigation" value="1"';
+	if( $options['navigation']){ echo ' checked="checked"'; }
 	echo '></input> ';
         _e('If you switch this off, the whole Supersized footer is hidden. The captions will still be displayed if the options <em>Slide caption</em> is on.','WPSupersized');
         echo ' (';
@@ -748,14 +766,14 @@
 	// thumbnail_navigation
 	echo '<tr valign="top"><th scope="row">';
         _e('Thumbnail navigation','WPSupersized');
-	echo '</th><td><input type="checkbox" name="thumbnail_navigation" value="true"';
-	if( $options['thumbnail_navigation'] == true ){ echo ' checked="checked"'; }
+	echo '</th><td><input type="checkbox" name="thumbnail_navigation" value="1"';
+	if( $options['thumbnail_navigation']){ echo ' checked="checked"'; }
 	echo '></input> ';
         _e('Toggles forward/backward thumbnail navigation. When on, thumbnails from the next/previous posts are generated and can be clicked to navigate.  If there is no thumbnail for the slide, it will simply scale down the full size image, which can slow performance','WPSupersized');
         echo ' (';
         _e('default is off','WPSupersized');
         echo ')<br /><p>';
-        echo sprintf(__('For both <em>Thumbnail navigation</em> and <em>Thumbnail links in thumbnail tray</em>, <strong>thumbnail files must be present in a <em>thumbs/</em> directory within the corresponding slides folder</strong>, each thumbnail having the same name (+ suffix) as its corresponding image, i.e. the slide image_1.jpg in wp-content/supersized-slides and its thumbnail image_1%s.jpg in wp-content/supersized-slides/thumbs.','WPSupersized'),$options['thumbnail_suffix']);
+        echo sprintf(__('If you are using a folder as source for your images, for both <em>Thumbnail navigation</em> and <em>Thumbnail links in thumbnail tray</em>, <strong>thumbnail files must be present in a <em>thumbs/</em> directory within the corresponding slides folder</strong>, each thumbnail having the same name (+ suffix) as its corresponding image, i.e. the slide image_1.jpg in wp-content/supersized-slides and its thumbnail image_1%s.jpg in wp-content/supersized-slides/thumbs.','WPSupersized'),$options['thumbnail_suffix']);
         echo '</p></td></tr>';
 	
         // thumbnail_suffix
@@ -768,8 +786,8 @@
 	// thumb_tray
 	echo '<tr valign="top"><th scope="row">';
         _e('Thumbnail tray','WPSupersized');
-	echo '</th><td><input type="checkbox" name="thumb_tray" value="true"';
-	if( $options['thumb_tray'] == true ){ echo ' checked="checked"'; }
+	echo '</th><td><input type="checkbox" name="thumb_tray" value="1"';
+	if( $options['thumb_tray']){ echo ' checked="checked"'; }
 	echo '></input> ';
         _e('Thumbnail tray appears when clicked on bottom right arrow','WPSupersized');
         echo ' (';
@@ -779,8 +797,8 @@
 	// tray_visible
 	echo '<tr valign="top"><th scope="row">';
         _e('Tray visible at startup','WPSupersized');
-	echo '</th><td><input type="checkbox" name="tray_visible" value="true"';
-	if( $options['tray_visible'] == true ){ echo ' checked="checked"'; }
+	echo '</th><td><input type="checkbox" name="tray_visible" value="1"';
+	if( $options['tray_visible']){ echo ' checked="checked"'; }
 	echo '></input> ';
         _e('Thumbnail tray will be shown when the slideshow starts','WPSupersized');
         echo ' (';
@@ -790,8 +808,8 @@
         // thumb_links
 	echo '<tr valign="top"><th scope="row">';
         _e('Thumbnail links in thumbnail tray','WPSupersized');
-	echo '</th><td><input type="checkbox" name="thumb_links" value="true"';
-	if( $options['thumb_links'] == true ){ echo ' checked="checked"'; }
+	echo '</th><td><input type="checkbox" name="thumb_links" value="1"';
+	if( $options['thumb_links']){ echo ' checked="checked"'; }
 	echo '></input> ';
         _e('Generates a list of thumbnail links in the thumbnail tray that jumps to the corresponding slide. If there is no thumbnail for the slide, it will simply scale down the full size image, which can slow performance','WPSupersized');
         echo ' (';
@@ -828,8 +846,8 @@
 	// slide_counter
 	echo '<tr valign="top"><th scope="row">';
         _e('Slide number','WPSupersized');
-	echo '</th><td><input type="checkbox" name="slide_counter" value="true"';
-	if( $options['slide_counter'] == true ){ echo ' checked="checked"'; }
+	echo '</th><td><input type="checkbox" name="slide_counter" value="1"';
+	if( $options['slide_counter']){ echo ' checked="checked"'; }
 	echo '></input> ';
         _e('Displays slide number','WPSupersized');
         echo ' (';
@@ -839,8 +857,8 @@
 	// slide_captions
 	echo '<tr valign="top"><th scope="row">';
         _e('Slide caption','WPSupersized');
-	echo '</th><td><input type="checkbox" name="slide_captions" value="true"';
-	if( $options['slide_captions'] == true ){ echo ' checked="checked"'; }
+	echo '</th><td><input type="checkbox" name="slide_captions" value="1"';
+	if( $options['slide_captions']){ echo ' checked="checked"'; }
 	echo '></input> (';
         _e('default is on','WPSupersized');
         echo ')<br />';
@@ -854,8 +872,8 @@
 	// progress_bar
 	echo '<tr valign="top"><th scope="row">';
         _e('Progress bar','WPSupersized');
-	echo '</th><td><input type="checkbox" name="progress_bar" value="true"';
-	if( $options['progress_bar'] == true ){ echo ' checked="checked"'; }
+	echo '</th><td><input type="checkbox" name="progress_bar" value="1"';
+	if( $options['progress_bar']){ echo ' checked="checked"'; }
 	echo '></input> ';
         _e('Shows a progress bar that runs based on the slide interval','WPSupersized');
         echo ' (';
@@ -865,8 +883,8 @@
 	// mouse_scrub
 	echo '<tr valign="top"><th scope="row">';
         _e('Fluid thumbnail bar','WPSupersized');
-	echo '</th><td><input type="checkbox" name="mouse_scrub" value="true"';
-	if( $options['mouse_scrub'] == true ){ echo ' checked="checked"'; }
+	echo '</th><td><input type="checkbox" name="mouse_scrub" value="1"';
+	if( $options['mouse_scrub']){ echo ' checked="checked"'; }
 	echo '></input> ';
         _e('Makes the thumbnail list navigate left or right based on the mouse location','WPSupersized');
         echo ' (';
@@ -889,6 +907,7 @@
 	}
         function flickr_options($options) { 
 	echo '<table class="form-table">';
+        echo '<br /><span class="description">These images will be used on all pages/posts that you selected in the <a href="'.get_admin_url().'/options-general.php?page=wp-supersized&tab=display">Display option</a>, unless you select another origin in the page/post editor</span>';
 	
 	// flickr_source
 	echo '<tr valign="top"><th scope="row">';
@@ -1024,6 +1043,7 @@
         
         function picasa_options($options) { 
 	echo '<table class="form-table">';
+        echo '<br /><span class="description">These images will be used on all pages/posts that you selected in the <a href="'.get_admin_url().'/options-general.php?page=wp-supersized&tab=display">Display option</a>, unless you select another origin in the page/post editor</span>';
 	
 	// picasa_source
 	echo '<tr valign="top"><th scope="row">';
@@ -1167,6 +1187,7 @@
         
         function smugmug_options($options) { 
 	echo '<table class="form-table">';
+        echo '<br /><span class="description">These images will be used on all pages/posts that you selected in the <a href="'.get_admin_url().'/options-general.php?page=wp-supersized&tab=display">Display option</a>, unless you select another origin in the page/post editor</span>';
 	
 	// smugmug_source
 	echo '<tr valign="top"><th scope="row">';

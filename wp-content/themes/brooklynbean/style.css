@@ -1406,3 +1406,33 @@ tr.slp_map_search_results a:hover {
 	white-space: nowrap;
 	overflow: hidden;
 }
+
+/* Gravity Styles */
+#main .gform_wrapper .top_label input {
+	background: #ddd;
+	border: 0;
+	padding: 0.5em;
+}
+#main .gform_wrapper .top_label input.medium {
+	width: 30%;
+	font-size: 16px;
+}
+#main .gform_wrapper .top_label input.large, #main .gform_wrapper .top_label select.large, #main .gform_wrapper .top_label textarea.textarea {
+	width: 60%;
+	margin-bottom: 20px;
+	padding:0.5em;
+	border: 0;
+	background: #ddd;
+	font-size: 16px;
+}
+
+#main .gform_wrapper .gform_footer input.button, #main .gform_wrapper .gform_footer input[type=submit] {
+	padding: 3px 10px;
+	margin-top:10px;
+	border: 0;
+	background: #F7BA00;
+	height: 35px;
+	font-size: 14px;
+	cursor: pointer;
+	text-transform: uppercase;
+}

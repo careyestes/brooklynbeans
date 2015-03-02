@@ -3,8 +3,8 @@ Contributors: worldinmyeyes
 Donate link: http://www.worldinmyeyes.be/donate/
 Tags: Supersized, background, full screen, slideshow, flickr, Picasa, Smugmug, media gallery, NextGEN gallery
 Requires at least: 3.1
-Tested up to: 3.4.1
-Stable tag: 3.1.1
+Tested up to: 3.6
+Stable tag: 3.1.6
 License: GPLv2
 
 Full screen background slideshow in any page/post, with images from WP Media Gallery, NextGEN Gallery, Flickr, Picasa, Smugmug, folder, or XML file
@@ -577,6 +577,42 @@ Thanks to the generous donators who encourage me to develop my plugin further (a
 
 == Changelog ==
 
+= 3.1.6 =
+
+* Bug fix: metabox content rewritten in the page/post editing screen to work with the new version of jQuery that shipped with Wordpress 3.6.
+* Updated the jQuery UI style to the latest available (v1.10.3).
+
+= 3.1.5 =
+
+* Added the option Always fill screen in Size and position, to allow the image to always fill the screen (image is cropped). This possibility had disappeared when the new Size and position button was introduced in v.3.1.2.
+
+= 3.1.4 =
+
+* Bug fix (tested): corrected several errors in the automatic options conversion routine that were still preventing the plugin to work correctly.
+This bug fix will only work on new updates from versions before v.3.1.2.
+If you were faced with problems when updating to v.3.1.2 or v.3.1.3, the solution is to take a note of your current options and then to reset the options and enter your own options again. Sorry for the inconvenience.
+
+= 3.1.3 =
+
+* Bug fix: added more checks in the automatic options conversion routine to avoid the issue of losing the options when updating. This bug fix will only work on new updates from versions earlier than v.3.1.2.
+If you were faced with the problem when updating to v.3.1.2, the solution is to take a note of your current options and then to reset the options and enter your own options again. Sorry for the inconvenience.
+
+= 3.1.2 =
+
+* Bug fix: fixed a small syntax error in jquery code used by the plugin that was causing problems with the display of the backend metabox in WP 3.5.
+* Bug fix: the options selected through an xml file should now work as advertised.
+* Bug fix: the thumb tray will now appear only when the corresponding option (Thumbnail tray) is selected, even if the option for showing the tray at startup is selected.
+* Bug fix: modified the Flickr, Picasa, and Smugmug code used by the plugin to avoid the disappearance of the navigation arrows when a long caption is displayed.
+* Bug fix: the Fit always option should now work also with Flickr, Picasa, and Smugmug images.
+* Modified the Size and position option: Fit always, Fit portrait, and Fit landscape are now mutually exclusive. There was no point in selecting both Fit portrait and Fit landscape at the same time to do what Fit always does anyway.
+* Added support for displaying the Supersized source meta box in custom post types (thanks to [JonasVorwerk](http://wordpress.org/support/profile/jonasvorwerk "JonasVorwerk")).
+* Added enhanced jquery animate to remove flickering on iPad and iPhone ([jquery.animate-enhanced plugin](http://playground.benbarnett.net/jquery-animate-enhanced/ "jquery.animate-enhanced plugin")).
+* Added more details for the use of some options in the admin.
+* Added an automatic option updater to set the right format for the on/off options.
+* Updated the example.xml file with the missing options for Picasa, and Smugmug.
+* Cleaned up some code.
+* Tested up to WP 3.5.
+
 = 3.1.1 =
 
 * Bug fix: moved a few lines in their correct position in the code. This small mistake was generating warnings about invalid arguments passed to the implode() function.
@@ -698,5 +734,4 @@ Thanks to the generous donators who encourage me to develop my plugin further (a
 
 == Upgrade Notice ==
 
-Added support for Picasa and Smugmug.
-Post/page editor screen now contains a WP Supersized panel that allows easy individual selection of source (WP Media Gallery, NextGen Gallery, Flickr, Picasa, Smugmug, custom dir, or XML file) for each page/post.
+Bug fix: the WP Supersized option panel in the page/post editor is functional again.

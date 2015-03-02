@@ -1,11 +1,10 @@
 === System Snapshot Report ===
-Contributors: norcross
-Website Link: http://reaktivstudios.com
+Contributors: norcross, jjeaton, reaktivstudios
 Donate link: http://andrewnorcross.com/donate
 Tags: site audit, system report, server info
 Requires at least: 3.3
-Tested up to: 3.6
-Stable tag: 1.0.0
+Tested up to: 3.9
+Stable tag: 1.0.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -14,6 +13,8 @@ Utility plugin for getting system and WP specific data for support or troublesho
 == Description ==
 
 Utility plugin for getting system and WP specific data for support or troubleshooting. Provided a snapshot of data for someone providing assistance to better determine possible issues.
+
+<a rel="author" href="https://plus.google.com/+AndrewNorcross">Norcross on Google+</a>
 
 == Installation ==
 
@@ -39,7 +40,11 @@ The original code (and inspiration) was ported from Easy Digital Downloads
 
 == Changelog ==
 
-= 1.0 =
+= 1.0.1 =
+* Added OpenSSL check
+* Minor code cleanup
+
+= 1.0.0 =
 * First release!
 
 

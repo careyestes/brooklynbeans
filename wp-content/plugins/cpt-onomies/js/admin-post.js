@@ -56,7 +56,7 @@ jQuery.noConflict()(function(){
 	jQuery( 'select.category.cpt_onomies' ).each( function() {
 		var $taxonomy = jQuery( this ).attr( 'id' ).replace( /^taxonomy-/i, '' );
 		// if user cannot assign terms
-		if ( !cpt_onomies_admin_post_data.can_assign_terms[ $taxonomy ] )
+		if ( ! cpt_onomies_admin_post_data.can_assign_terms[ $taxonomy ] )
 			jQuery( this ).attr( 'disabled', 'disabled' );	
 	});
 			
@@ -83,6 +83,7 @@ jQuery.noConflict()(function(){
 		
 		// autocomplete new tags
 		if ( $new_tag_input.size() > 0 ) {
+		
 			$new_tag_input.autocomplete({
 				delay: 200,
 				source: function( $request, $response ){
@@ -96,28 +97,41 @@ jQuery.noConflict()(function(){
 							action: 'custom_post_type_onomy_meta_box_autocomplete_callback',
 							custom_post_type_onomies_taxonomy: $taxonomy,
 							custom_post_type_onomies_term: $request.term,
+							custom_post_type_onomies_post_type: $post_type,
 							custom_post_type_onomies_post_id: $post_id
 						},
 						success: function( $data ){
 							$response( jQuery.map( $data, function( $item ) {
-								jQuery.data( 'selected_term_id', $item.label );
 								return {
-									value: $item.label,
-									label: $item.value,
+									value: $item.value,
+									label: $item.label,
 									parent: $item.parent
 								};
 							}));
 						}
 					});
 				},
-				select: function( $event, $ui ) {
+				focus: function( $event, $ui ) {
+					
 					// change the input value
-					$new_tag_input.val( $ui.item.value );
+					// this approach allows us "html entity decode" the label        
+					$new_tag_input.val( jQuery( '<div />' ).html( $ui.item.label ).text() );
+					
+					return false;
+					
+				},
+				select: function( $event, $ui ) {
+					
+					// change the input value
+					// this approach allows us "html entity decode" the label
+					$new_tag_input.val( jQuery( '<div />' ).html( $ui.item.label ).text() );
+					
 					// store the ID
 					if ( jQuery( '#' + $hidden_tag_id ).size() == 0 )
-						$new_tag_input.after( '<input id="' + $hidden_tag_id + '" type="hidden" value="' + $ui.item.label + '" />' );
+						$new_tag_input.after( '<input id="' + $hidden_tag_id + '" type="hidden" value="' + $ui.item.value + '" />' );
 					else
-						jQuery( '#' + $hidden_tag_id ).val( $ui.item.label );
+						jQuery( '#' + $hidden_tag_id ).val( $ui.item.value );
+					
 					// if parent, then store parent
 					if ( $ui.item.parent != '' && $ui.item.parent != null && $ui.item.parent != undefined ) {
 						if ( jQuery( '#' + $hidden_tag_parent ).size() == 0 )
@@ -125,14 +139,16 @@ jQuery.noConflict()(function(){
 						else
 							jQuery( '#' + $hidden_tag_parent ).val( $ui.item.parent );
 					}
+					
 					// otherwise, remove the hidden input
 					else
 						jQuery( '#' + $hidden_tag_parent ).remove();
+					
 					return false;
+					
 				}
-			})
-			.data( 'autocomplete' )
-			._renderItem = function( $ul, $item ) {
+			}).data( 'ui-autocomplete' )._renderItem = function( $ul, $item ) {
+				
 				// add our class to the ul
 				$ul.addClass( 'cpt_onomies' );
 				
@@ -141,11 +157,12 @@ jQuery.noConflict()(function(){
 				if ( $item.parent != '' && $item.parent != null && $item.parent != undefined )
 					$parent = '<span class="parent">' + $item.parent.replace( ',', '/ ' ) + '/</span>';
 				
-	        	var $list_item = jQuery( '<li></li>' )
+				// return item
+	        	return jQuery( '<li></li>' )
 	            	.data( 'item.autocomplete', $item )
-	            	.append( '<a>' + $parent + $item.value + '</a>' )
+	            	.append( '<a>' + $parent + $item.label + '</a>' )
 	            	.appendTo( $ul );
-	            return $list_item;
+	            
 	        };
 	    }
 	    
@@ -182,7 +199,7 @@ jQuery.noConflict()(function(){
        		
        		// check to see if term exists if they typed in a term on their own
         	// this will retrieve term id AND also get term name if they typed in a slug
-        	if ( $term == '' || ( !$term_id || $term_id == 0 || $term_id == '' ) ) {
+        	if ( $term == '' || ( ! $term_id || $term_id == 0 || $term_id == '' ) ) {
         		jQuery.ajax({
 					url: ajaxurl,
 					type: 'POST',
@@ -232,7 +249,7 @@ jQuery.noConflict()(function(){
 	        else {
 	        	
 	        	// set error message
-	        	$cpt_onomies_add_tag_error_message = cpt_onomies_admin_post_L10n.term_does_not_exist + ' <a href="post-new.php?post_type=' + $taxonomy + '" target="_blank">' + cpt_onomies_admin_post_L10n.add_a_term + '</a>';
+	        	$cpt_onomies_add_tag_error_message = cpt_onomies_admin_post_L10n.term_does_not_exist + ' <a href="post-new.php?post_type=' + $taxonomy + '&post_title=' + $term.replace( /\s/i, '+' ) + '" target="_blank">' + cpt_onomies_admin_post_L10n.add_the_term + '</a>';
 	        	
 	        }
 	        
@@ -297,7 +314,7 @@ jQuery.noConflict()(function(){
 					});
 				}
 				// there are no terms and the user cant assign terms so let's put some text here so it isn't just blank
-				else if ( !cpt_onomies_admin_post_data.can_assign_terms[ $taxonomy ] ) {
+				else if ( ! cpt_onomies_admin_post_data.can_assign_terms[ $taxonomy ] ) {
 					if ( cpt_onomies_admin_post_L10n.no_terms_selected[ $taxonomy ] != '' )
 						$no_terms_selected = cpt_onomies_admin_post_L10n.no_terms_selected[ $taxonomy ];
 					else
@@ -368,7 +385,6 @@ jQuery.fn.custom_post_type_onomies_tag_checklist_add_tag_term = function( $taxon
 	   	// add parent
 	   	if ( $term_parent != '' && $term_parent != null && $term_parent != undefined ) {
 	   		$tag_term.prepend( '<span class="parent">' + $term_parent.replace( ',', '/ ' ) + '/</span>' );
-	   		//$tag_term.prepend( '<span class="parent">' + $term_parent + '/</span> ' );
 	   	}
 	   	$tag.append( $tag_term );
 	   		        	

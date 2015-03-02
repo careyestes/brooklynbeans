@@ -1,2 +1,0 @@
-[14-Dec-2014 16:40:24 America/Denver] PHP Fatal error:  Call to undefined function plugin_dir_path() in /home1/karenspl/public_html/brooklynbeans/wp-content/plugins/all-in-one-seo-pack/all_in_one_seo_pack.php on line 40
-[14-Dec-2014 16:41:07 America/Denver] PHP Fatal error:  Call to undefined function plugin_dir_path() in /home1/karenspl/public_html/brooklynbeans/wp-content/plugins/all-in-one-seo-pack/all_in_one_seo_pack.php on line 40

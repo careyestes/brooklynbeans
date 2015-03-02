@@ -3,7 +3,7 @@
 Plugin Name: System Snapshot Report
 Plugin URI: http://reaktivstudios.com
 Description: Admin related functions for doing a site audit
-Version: 1.0.0
+Version: 1.0.1
 Author: Reaktiv Studios
 Author URI: http://reaktivstudios.com
 
@@ -26,15 +26,28 @@ Author URI: http://reaktivstudios.com
 */
 
 // Plugin Folder Path
-	if ( ! defined( 'SSRP_PLUGIN_DIR' ) )
-		define( 'SSRP_PLUGIN_DIR', plugin_dir_path( __FILE__ ) );
+if ( ! defined( 'SSRP_DIR' ) ) {
+	define( 'SSRP_DIR', plugin_dir_path( __FILE__ ) );
+}
 
-// Start up the engine
+if( ! defined( 'SSRP_VER' ) ) {
+	define( 'SSRP_VER', '1.0.1' );
+}
+
+/**
+ * Start up the engine
+ * Reaktiv_Audit_Report class.
+ */
 class System_Snapshot_Report
 {
 	/**
 	 * Static property to hold our singleton instance
-	 * @var System_Snapshot_Report
+	 *
+	 * (default value: false)
+	 *
+	 * @var bool
+	 * @access public
+	 * @static
 	 */
 	static $instance = false;
 
@@ -42,56 +55,56 @@ class System_Snapshot_Report
 	 * This is our constructor, which is private to force the use of
 	 * getInstance() to make this a Singleton
 	 *
-	 * @return System_Snapshot_Report
+	 * @access private
+	 * @return void
 	 */
 	private function __construct() {
-		add_action      ( 'plugins_loaded',                     array( $this, 'textdomain'              )			);
-		add_action		( 'admin_enqueue_scripts',				array( $this, 'scripts_styles'			),	10		);
-		add_action		( 'admin_init',							array( $this, 'snapshot_download'		)			);
-		add_action      ( 'admin_menu',                 		array( $this, 'menu_item'    			)			);
-		add_filter		( 'admin_footer_text',					array( $this, 'admin_footer'			)			);
+		add_action		(	'plugins_loaded',						array(	$this,	'textdomain'			)			);
+		add_action		(	'admin_enqueue_scripts',				array(	$this,	'scripts_styles'		),	10		);
+		add_action		(	'admin_init',							array(	$this,	'snapshot_download'		)			);
+		add_action		(	'admin_menu',							array(	$this,	'menu_item'				)			);
+		add_filter		(	'admin_footer_text',					array(	$this,	'admin_footer'			)			);
 	}
 
 	/**
 	 * If an instance exists, this returns it.  If not, it creates one and
 	 * retuns it.
 	 *
-	 * @return System_Snapshot_Report
+	 * @access public
+	 * @static
+	 * @return void
 	 */
-
 	public static function getInstance() {
-		if ( !self::$instance )
+		if ( !self::$instance ) {
 			self::$instance = new self;
+		}
 		return self::$instance;
 	}
-
 
 	/**
 	 * load textdomain
 	 *
-	 * @return System_Snapshot_Report
+	 * @access public
+	 * @return void
 	 */
-
-
 	public function textdomain() {
 
-		load_plugin_textdomain( 'ssrp', false, dirname( plugin_basename( __FILE__ ) ) . '/languages/' );
+		load_plugin_textdomain( 'system-snapshot-report', false, dirname( plugin_basename( __FILE__ ) ) . '/languages/' );
 	}
-
 
 	/**
 	 * Scripts and stylesheets
 	 *
-	 * @return System_Snapshot_Report
+	 * @access public
+	 * @return void
 	 */
-
 	public function scripts_styles() {
 
 		$current_screen = get_current_screen();
 
 		if ( 'tools_page_snapshot-report' == $current_screen->base ) {
-			wp_enqueue_style( 'snapshot', plugins_url('/lib/css/snapshot.css', __FILE__), array(), null, 'all' );
-			wp_enqueue_script( 'snapshot', plugins_url('/lib/js/snapshot.js', __FILE__) , array('jquery'), '1.0', true );
+			wp_enqueue_style(	'snapshot', plugins_url( '/lib/css/snapshot.css', __FILE__ ),	array(),			SSRP_VER,	'all'	);
+			wp_enqueue_script(	'snapshot', plugins_url( '/lib/js/snapshot.js', __FILE__ ),		array( 'jquery' ),	SSRP_VER,	true	);
 		}
 
 	}
@@ -99,9 +112,10 @@ class System_Snapshot_Report
 	/**
 	 * helper function for number conversions
 	 *
-	 * @return System_Snapshot_Report
+	 * @access public
+	 * @param mixed $v
+	 * @return void
 	 */
-
 	public function num_convt( $v ) {
 		$l   = substr( $v, -1 );
 		$ret = substr( $v, 0, -1 );
@@ -124,47 +138,48 @@ class System_Snapshot_Report
 	/**
 	 * build out settings page and meta boxes
 	 *
-	 * @return System_Snapshot_Report
+	 * @access public
+	 * @return void
 	 */
-
 	public function menu_item() {
-		add_management_page( __( 'System Snapshot Report', 'ssrp' ), __( 'Snapshot', 'ssrp' ), 'manage_options', 'snapshot-report', array( $this, 'snapshot_report' ) );
+		add_management_page( __( 'System Snapshot Report', 'system-snapshot-report' ), __( 'Snapshot', 'system-snapshot-report' ), 'manage_options', 'snapshot-report', array( $this, 'snapshot_report' ) );
 
 	}
-
 
 	/**
 	 * Display actual report
 	 *
-	 * @return System_Snapshot_Report
+	 * @access public
+	 * @return void
 	 */
-
 	public function snapshot_report() {
 
-		if (!current_user_can('manage_options') )
+		if ( ! current_user_can( 'manage_options' ) ) {
 			return;
+		}
+
 		?>
 
 		<div class="wrap system-snapshot-wrap">
-    	<div class="icon32" id="icon-tools"><br></div>
-		<h2><?php _e( 'System Snapshot Report', 'ssrp' ) ?></h2>
+		<div class="icon32" id="icon-tools"><br></div>
+		<h2><?php _e( 'System Snapshot Report ' . SSRP_VER, 'system-snapshot-report' ) ?></h2>
 
-		<p><?php _e( 'Either copy + paste the info below or click the download button', 'ssrp' ) ?></p>
+		<p><?php _e( 'Either copy + paste the info below or click the download button', 'system-snapshot-report' ) ?></p>
 
 		<form action="<?php echo esc_url( admin_url( 'tools.php?page=snapshot-report' ) ); ?>" method="post" dir="ltr">
 
 			<p>
 				<input type="hidden" name="snapshot-action" value="process-report">
-				<input type="submit" value="<?php _e( 'Save Snapshot File', 'ssrp' ) ?>" class="button button-primary system-snapshot-save" name="system-snapshot-save">
-				<input type="button" value="<?php _e( 'Highlight Data', 'ssrp' ) ?>" class="button button-secondary snapshot-highlight" name="snapshot-highlight">
+				<input type="submit" value="<?php _e( 'Save Snapshot File', 'system-snapshot-report' ); ?>" class="button button-primary system-snapshot-save" name="system-snapshot-save">
+				<input type="button" value="<?php _e( 'Highlight Data', 'system-snapshot-report' ); ?>" class="button button-secondary snapshot-highlight" name="snapshot-highlight">
 			</p>
 
 			<p><?php echo $this->snapshot_data(); ?></p>
 
 			<p>
 				<input type="hidden" name="snapshot-action" value="process-report">
-				<input type="submit" value="<?php _e( 'Save Snapshot File', 'ssrp' ) ?>" class="button button-primary system-snapshot-save" name="system-snapshot-save">
-				<input type="button" value="<?php _e( 'Highlight Data', 'ssrp' ) ?>" class="button button-secondary snapshot-highlight" name="snapshot-highlight">
+				<input type="submit" value="<?php _e( 'Save Snapshot File', 'system-snapshot-report' ); ?>" class="button button-primary system-snapshot-save" name="system-snapshot-save">
+				<input type="button" value="<?php _e( 'Highlight Data', 'system-snapshot-report' ); ?>" class="button button-secondary snapshot-highlight" name="snapshot-highlight">
 			</p>
 
 		</form>
@@ -185,8 +200,9 @@ class System_Snapshot_Report
 		global $wpdb;
 
 		// check for browser class add on
-		if ( ! class_exists( 'Browser' ) )
-			require_once SSRP_PLUGIN_DIR . 'lib/browser.php';
+		if ( ! class_exists( 'Browser' ) ) {
+			require_once SSRP_DIR . 'lib/browser.php';
+		}
 
 		// do WP version check and get data accordingly
 		$browser = new Browser();
@@ -211,20 +227,24 @@ class System_Snapshot_Report
 		$ms_sites	= is_multisite() ? get_blog_list() : null;
 
 		// yes / no specifics
-		$ismulti	= is_multisite() ? __( 'Yes', 'ssrp' ) : __( 'No', 'ssrp' );
-		$safemode	= ini_get( 'safe_mode' ) ? __( 'Yes', 'ssrp' ) : __( 'No', 'ssrp' );
-		$wpdebug	= defined( 'WP_DEBUG' ) ? WP_DEBUG ? __( 'Enabled', 'ssrp' ) : __( 'Disabled', 'ssrp' ) : __( 'Not Set', 'ssrp' );
-		$tbprefx	= strlen( $wpdb->prefix ) < 16 ? __( 'Acceptable', 'ssrp' ) : __( 'Too Long', 'ssrp' );
-		$fr_page	= $frontpage ? get_the_title( $frontpage ).' (ID# '.$frontpage.')'.'' : __( 'n/a', 'ssrp' );
-		$fr_post	= $frontpage ? get_the_title( $frontpost ).' (ID# '.$frontpost.')'.'' : __( 'n/a', 'ssrp' );
-		$errdisp	= ini_get( 'display_errors' ) != false ? __( 'On', 'ssrp' ) : __( 'Off', 'ssrp' );
-		$sessenb	= isset( $_SESSION ) ? __( 'Enabled', 'ssrp' ) : __( 'Disabled', 'ssrp' );
-		$usecck		= ini_get( 'session.use_cookies' ) ? __( 'On', 'ssrp' ) : __( 'Off', 'ssrp' );
-		$useocck	= ini_get( 'session.use_only_cookies' ) ? __( 'On', 'ssrp' ) : __( 'Off', 'ssrp' );
-		$hasfsock	= function_exists( 'fsockopen' ) ? __( 'Your server supports fsockopen.', 'ssrp' ) : __( 'Your server does not support fsockopen.', 'ssrp' );
-		$hascurl	= function_exists( 'curl_init' ) ? __( 'Your server supports cURL.', 'ssrp' ) : __( 'Your server does not support cURL.', 'ssrp' );
-		$hassoap	= class_exists( 'SoapClient' ) ? __( 'Your server has the SOAP Client enabled.', 'ssrp' ) : __( 'Your server does not have the SOAP Client enabled.', 'ssrp' );
-		$hassuho	= extension_loaded( 'suhosin' ) ? __( 'Your server has SUHOSIN installed.', 'ssrp' ) : __( 'Your server does not have SUHOSIN installed.', 'ssrp' );
+		$ismulti	= is_multisite() ? __( 'Yes', 'system-snapshot-report' ) : __( 'No', 'system-snapshot-report' );
+		$safemode	= ini_get( 'safe_mode' ) ? __( 'Yes', 'system-snapshot-report' ) : __( 'No', 'system-snapshot-report' );
+		$wpdebug	= defined( 'WP_DEBUG' ) ? WP_DEBUG ? __( 'Enabled', 'system-snapshot-report' ) : __( 'Disabled', 'system-snapshot-report' ) : __( 'Not Set', 'system-snapshot-report' );
+		$tbprefx	= strlen( $wpdb->prefix ) < 16 ? __( 'Acceptable', 'system-snapshot-report' ) : __( 'Too Long', 'system-snapshot-report' );
+		$fr_page	= $frontpage ? get_the_title( $frontpage ).' (ID# '.$frontpage.')'.'' : __( 'n/a', 'system-snapshot-report' );
+		$fr_post	= $frontpage ? get_the_title( $frontpost ).' (ID# '.$frontpost.')'.'' : __( 'n/a', 'system-snapshot-report' );
+		$errdisp	= ini_get( 'display_errors' ) != false ? __( 'On', 'system-snapshot-report' ) : __( 'Off', 'system-snapshot-report' );
+
+		$jquchk		= wp_script_is( 'jquery', 'registered' ) ? $GLOBALS['wp_scripts']->registered['jquery']->ver : __( 'n/a', 'system-snapshot-report' );
+
+		$sessenb	= isset( $_SESSION ) ? __( 'Enabled', 'system-snapshot-report' ) : __( 'Disabled', 'system-snapshot-report' );
+		$usecck		= ini_get( 'session.use_cookies' ) ? __( 'On', 'system-snapshot-report' ) : __( 'Off', 'system-snapshot-report' );
+		$useocck	= ini_get( 'session.use_only_cookies' ) ? __( 'On', 'system-snapshot-report' ) : __( 'Off', 'system-snapshot-report' );
+		$hasfsock	= function_exists( 'fsockopen' ) ? __( 'Your server supports fsockopen.', 'system-snapshot-report' ) : __( 'Your server does not support fsockopen.', 'system-snapshot-report' );
+		$hascurl	= function_exists( 'curl_init' ) ? __( 'Your server supports cURL.', 'system-snapshot-report' ) : __( 'Your server does not support cURL.', 'system-snapshot-report' );
+		$hassoap	= class_exists( 'SoapClient' ) ? __( 'Your server has the SOAP Client enabled.', 'system-snapshot-report' ) : __( 'Your server does not have the SOAP Client enabled.', 'system-snapshot-report' );
+		$hassuho	= extension_loaded( 'suhosin' ) ? __( 'Your server has SUHOSIN installed.', 'system-snapshot-report' ) : __( 'Your server does not have SUHOSIN installed.', 'system-snapshot-report' );
+		$openssl	= extension_loaded('openssl') ? __( 'Your server has OpenSSL installed.', 'system-snapshot-report' ) : __( 'Your server does not have OpenSSL installed.', 'system-snapshot-report' );
 
 		// start generating report
 		$report	= '';
@@ -267,10 +287,13 @@ class System_Snapshot_Report
 		endif;
 
 		$report	.= "\n\t".'** BROWSER DATA **'."\n";
-		$report	.= $browser;
+		$report	.= 'Platform:'."\t\t\t\t".$browser->getPlatform()."\n";
+		$report	.= 'Browser Name'."\t\t\t\t". $browser->getBrowser() ."\n";
+		$report	.= 'Browser Version:'."\t\t\t".$browser->getVersion()."\n";
+		$report	.= 'Browser User Agent:'."\t\t\t".$browser->getUserAgent()."\n";
 
 		$report	.= "\n\t".'** SERVER DATA **'."\n";
-		$report	.= 'jQuery Version'."\t\t\t\t".'MYJQUERYVERSION'."\n";
+		$report	.= 'jQuery Version'."\t\t\t\t".$jquchk."\n";
 		$report	.= 'PHP Version:'."\t\t\t\t".PHP_VERSION."\n";
 		$report	.= 'MySQL Version:'."\t\t\t\t".mysql_get_server_info()."\n";
 		$report	.= 'Server Software:'."\t\t\t".$_SERVER['SERVER_SOFTWARE']."\n";
@@ -293,6 +316,7 @@ class System_Snapshot_Report
 		$report	.= 'cURL:'."\t\t\t\t\t".$hascurl."\n";
 		$report	.= 'SOAP Client:'."\t\t\t\t".$hassoap."\n";
 		$report	.= 'SUHOSIN:'."\t\t\t\t".$hassuho."\n";
+		$report	.= 'OpenSSL:'."\t\t\t\t".$openssl."\n";
 
 		$report	.= "\n\t".'** PLUGIN INFORMATION **'."\n";
 		if ( $plugins && $mu_plugins ) :
@@ -365,18 +389,17 @@ class System_Snapshot_Report
 
 	public function snapshot_download() {
 
-		if ( !isset( $_POST['snapshot-action'] ) )
+		if ( ! isset( $_POST['snapshot-action'] ) || isset( $_POST['snapshot-action'] ) && $_POST['snapshot-action'] !== 'process-report' ) {
 			return;
+		}
 
-		if ( $_POST['snapshot-action'] !== 'process-report' )
-			return;
 
 		// build out filename and timestamp
 		$name	= sanitize_title_with_dashes( get_bloginfo( 'name' ), '', 'save' );
 		$file	= $name.'-snapshot.txt';
 
 		$now	= time();
-		$stamp	= __( 'Report Generated: ', 'ssrp' ).date( 'm-d-Y @ g:i:sa', $now ).' system time';
+		$stamp	= __( 'Report Generated: ', 'system-snapshot-report' ).date( 'm-d-Y @ g:i:sa', $now ).' system time';
 
 		$data	= '';
 		$data	.= $stamp."\n\n";
@@ -403,12 +426,17 @@ class System_Snapshot_Report
 
 		$screen = get_current_screen();
 
-		if ( 'tools_page_snapshot-report' !== $screen->base )
+		if ( 'tools_page_snapshot-report' !== $screen->base ) {
 			return $text;
+		}
 
-		$icon = '<img class="reaktiv-icon" src="'.plugins_url( '/lib/img/reaktiv-16.png', __FILE__ ).'" alt="'. __('Reaktiv Studios', 'ssrp').'" title="'. __('Reaktiv Studios', 'ssrp').'">';
+		// set our footer link with GA campaign tracker
+		$link	= 'http://reaktivstudios.com/?utm_source=plugin&utm_medium=link&utm_campaign=snapshot';
 
-		$text = '<span id="footer-thankyou">'.$icon.__('This plugin brought to you by the fine folks at', 'ssrp').' <a target="_blank" href="'.esc_url( 'http://reaktivstudios.com/?utm_source=snapshot&utm_medium=link&utm_content=standard&utm_campaign=plugin' ).'" title="'.esc_attr( 'Reaktiv Studios', 'ssrp' ).'"> '. __('Reaktiv Studios', 'ssrp').'</a>.</span>';
+		// build footer
+		$text	= '<span id="footer-thankyou">';
+		$text	.= sprintf( __( 'This plugin brought to you by the fine folks at <a href="%1$s" title="%2$s" target="_blank">Reaktiv Studios</a>', 'system-snapshot-report' ), esc_url( $link ), esc_html( 'Reaktiv Studios', 'system-snapshot-report' ) );
+		$text	.= '</span>';
 
 		return $text;
 	}

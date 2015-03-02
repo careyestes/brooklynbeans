@@ -4,34 +4,36 @@ defined( 'ABSPATH' ) || exit;
 
 if ( ! class_exists( 'RWMB_Text_List_Field' ) )
 {
-  class RWMB_Text_List_Field
+	class RWMB_Text_List_Field extends RWMB_Field
 	{
 		/**
 		 * Get field HTML
 		 *
-		 * @param string $html
-		 * @param mixed  $meta
-		 * @param array  $field
+		 * @param mixed $meta
+		 * @param array $field
 		 *
 		 * @return string
 		 */
-		static function html( $html, $meta, $field )
+		static function html( $meta, $field )
 		{
-			$meta = (array) $meta;
-			$html = array();
-			$tpl = '<label><input type="text" class="rwmb-text-list" name="%s" id="%s" value="%s" /> %s</label>';
+			$html  = '';
+			$input = '<label><input type="text" class="rwmb-text-list" name="%s" id="%s" value="%s" placeholder="%s" /> %s</label>';
 
+			$i = 0;
 			foreach ( $field['options'] as $value => $label )
 			{
-				$html[] = sprintf(
-					$tpl,
+				$html .= sprintf(
+					$input,
 					$field['field_name'],
 					$field['id'],
+					isset( $meta[$i] ) ? esc_attr( $meta[$i] ) : '',
 					$value,
 					$label
 				);
+				$i ++;
 			}
-			return implode( ' ', $html );
+
+			return $html;
 		}
 
 		/**
@@ -43,20 +45,17 @@ if ( ! class_exists( 'RWMB_Text_List_Field' ) )
 		 *
 		 * TODO: A good way to ALWAYS save values in single entry in DB, while maintaining backward compatibility
 		 *
-		 * @param $meta
 		 * @param $post_id
 		 * @param $saved
 		 * @param $field
 		 *
 		 * @return array
 		 */
-		static function meta( $meta, $post_id, $saved, $field )
+		static function meta( $post_id, $saved, $field )
 		{
-			$meta = get_post_meta( $post_id, $field['id'], $field['clone'] );
-
-			$meta = ( !$saved && '' === $meta || array() === $meta ) ? $field['std'] : $meta;
-
-			$meta = array_map( 'esc_attr', (array) $meta );
+			$single = $field['clone'] || ! $field['multiple'];
+			$meta   = get_post_meta( $post_id, $field['id'], $single );
+			$meta   = ( ! $saved && '' === $meta || array() === $meta ) ? $field['std'] : $meta;
 
 			return $meta;
 		}
@@ -75,9 +74,10 @@ if ( ! class_exists( 'RWMB_Text_List_Field' ) )
 		 */
 		static function save( $new, $old, $post_id, $field )
 		{
-			if ( !$field['clone'] )
+			if ( ! $field['clone'] )
 			{
-				RW_Meta_Box::save( $new, $old, $post_id, $field );
+				parent::save( $new, $old, $post_id, $field );
+
 				return;
 			}
 
@@ -98,8 +98,9 @@ if ( ! class_exists( 'RWMB_Text_List_Field' ) )
 		{
 			$field['multiple']   = true;
 			$field['field_name'] = $field['id'];
-			if ( !$field['clone'] )
+			if ( ! $field['clone'] )
 				$field['field_name'] .= '[]';
+
 			return $field;
 		}
 	}

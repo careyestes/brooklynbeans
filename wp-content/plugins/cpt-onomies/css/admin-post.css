@@ -1,10 +1,10 @@
 select.category.cpt_onomies {
 	width: 100%;
+	margin-top: 7px;
 	}
 	
 .cpt_onomies_tags_div input.cpt_onomies_new_tag {
-	margin-right: 5px;
-	width: 16em;
+	width: 71%;
 }
 
 .cpt_onomies_tags_div .cpt_onomies_add_tag_error_message {
@@ -90,11 +90,10 @@ select.category.cpt_onomies {
 	border: 0!important;
 	white-space: normal!important;
 	}
-
+	
 .ui-autocomplete.cpt_onomies {
 	background: none!important;
 	max-width: 255px!important;
-	padding: 2px 0 0 0!important;
 	border: 0!important;
 	}
 
@@ -102,21 +101,22 @@ select.category.cpt_onomies {
 	padding: 0!important;
 	margin: 3px 0 0 0!important;
 	color: #fff!important;
-	line-height: 1.1em;
+	line-height: normal!important;
+	white-space: normal!important;
 	}
 	
 .ui-autocomplete.cpt_onomies .ui-menu-item .parent {
 	font-size: 90%!important;
-	color: #ccc!important;
 	font-style: italic!important;
+	opacity: 0.8!important;
 	margin: 0!important;
 	padding: 0 3px 0 0!important;
 	border: 0!important;
 	}
 	
 .ui-autocomplete.cpt_onomies .ui-menu-item a {
-	display: block;
-	background: #21759b!important;
+	display: block!important;
+	background: #0074a2!important;
 	padding: 7px 5px!important;
 	margin: 0!important;
 	border: 0!important;

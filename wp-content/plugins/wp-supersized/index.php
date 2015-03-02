@@ -2,11 +2,11 @@
 /* 
 Plugin Name: WP-Supersized
 Plugin URI: http://www.worldinmyeyes.be/2265/wp-supersized-wordpress-plugin/
-Version: 3.1.1
+Version: 3.1.6
 Author: <a href="http://www.worldinmyeyes.be/about/">Benoit De Boeck</a>
 Description: Installs the full screen slideshow background <a href="http://www.buildinternet.com/project/supersized/">Supersized 3.2.7</a> in your current theme. Many options are available.
  
-Copyright 2012  Benoit De Boeck  (email : ben [a t ] worldinmyeyes DOT be)
+Copyright 2013  Benoit De Boeck  (email : ben [a t ] worldinmyeyes DOT be)
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -38,7 +38,7 @@ add_action('wp_print_styles', array('WPSupersized','_Supersized_styles'));
 add_action('wp_head', array('WPSupersized','addHeaderCode'));
 add_action('wp_footer', array('WPSupersized','addFooterCode'), 15);
 add_action('add_meta_boxes', array('WPSupersized_Metabox','custom_meta_box')); // adds a custom meta box in the page/post admin
-add_action('save_post', array('WPSupersized_Metabox','save_custom_meta'), 10, 2); // saves the custom field data when the post/page is saved
+add_action('save_post', array('WPSupersized_Metabox','save_custom_meta'),10,2); // saves the custom field data when the post/page is saved
 
 global $customOptions; // makes the array $customOptions a global variable; necessary to avoid parsing several times the optional xml file
 global $xmlSlidesArray; // same for xmlSlidesArray

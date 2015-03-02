@@ -2,9 +2,9 @@
 Contributors: chipbennett
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=QP3N9HUSYJPK6
 Tags: cbnet, multi, author, comment, comments, comment notification, notification, notify, admin, administrator, email, maxblogpress
-Requires at least: 3.0
-Tested up to: 3.5.1
-Stable tag: 2.2.1
+Requires at least: 3.7
+Tested up to: 3.9
+Stable tag: 3.2
 
 Send comment notification and comment moderation emails to multiple users. Select users individually or by user role, or send emails to arbitrary email addresses.
 
@@ -12,7 +12,7 @@ Send comment notification and comment moderation emails to multiple users. Selec
 
 Easily enable email notification of new comments to users other than the post author.
 
-Via Dashboard -> Settings -> Discussion, enable email notification to users by user role (Administrator, Editor, Author, Contributor, Subscriber ), or define arbitary email addresses to notify. Also, optionally disable email notification for comments left by registered users.
+Via Dashboard -> Settings -> Discussion, enable email notification to users by site admin, user role (Administrator, Editor, Author, Contributor, Subscriber ), or define arbitary email addresses to notify. Also, optionally disable email notification for comments left by registered users.
 
 Email notification for individual users can be enabled via each user's profile.
 
@@ -38,6 +38,10 @@ Activiation and Use
 
 == Frequently Asked Questions ==
 
+= No emails are being sent. Why? =
+
+The Plugin merely filters the list of email recipients; it does not send email. Be sure that you have enabled (checked) the "Email me whenever" options for either "Anyone posts a comment" or "A comment is held for moderation". If neither of these options is enabled, no emails will be sent.
+
 = Where did settings go? =
 
 Plugin settings can be found under Dashboard -> Settings -> Discussion.
@@ -53,6 +57,17 @@ Screenshots coming soon.
 
 == Changelog ==
 
+= 3.2 =
+* Maintenance Release
+ * Fix bug causing PHP notices and preventing sending of emails. Props Flick.
+ * Add transients for notification/moderation email address arrays, for performance improvement
+= 3.1 =
+* Maintenance Release
+ * Add option to disable email notification to site admin email address
+= 3.0 =
+* Maintenance Release
+ * Incorporates core filters 'comment_notification_recipients' added to wp_notify_postauthor() and 'comment_moderation_recipients' added to wp_notify_moderator() in WordPress 3.7
+ * Removes Pluggable functions wp_notify_postauthor() and wp_notify_moderator() that no longer need to be overwritten
 = 2.2.1 =
 * Bugfix
  * Fixed issue with bad development file merge causing PHP errors
@@ -98,6 +113,12 @@ Screenshots coming soon.
 
 == Upgrade Notice ==
 
+= 3.2 =
+Maintenance. Bugfix and performance improvements.
+= 3.1 =
+Maintenance. Add option to disable notifications for site admin email address.
+= 3.0 =
+Maintenance. Incorporates new core filters, and removes pluggable functions.
 = 2.2.1 =
 Bugfix. Fixed issues with bad development file merge.
 = 2.2 =

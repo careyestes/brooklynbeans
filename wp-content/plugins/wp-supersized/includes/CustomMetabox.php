@@ -17,7 +17,7 @@ class WPSupersized_Metabox
    * 
    */
    function custom_meta_box() {
-       $postType = array ('post', 'page');
+       $postType = array ('post', 'page', 'projects');
        foreach ($postType as $type) {
         add_meta_box(  
             'wpsupersized_custom_meta_box', // $id  
@@ -94,28 +94,16 @@ class WPSupersized_Metabox
             $generalOptions['smugmug_sort_by'],
             $generalOptions['smugmug_sort_direction']
         );
-    
-    echo '<table class="form-table" style="display:none">';
-    echo '<tr><th><label for="SupersizedSource">Origin of WP Supersized images</label></th><td>';
-    echo '<input type="radio" name="SZSource" id="SZSource" value="0" ',$supersizedDir == '' ? ' checked="checked"' : '',' />';  
-    echo '<input type="radio" name="SZSource" id="SZSource" value="1" ',$supersizedDir == 'wp-gallery' ? ' checked="checked"' : '',' />';  
-    echo '<input type="radio" name="SZSource" id="SZSource" value="2" ',$supersizedDir == 'ngg-gallery' ? ' checked="checked"' : '',' />';  
-    echo '<input type="radio" name="SZSource" id="SZSource" value="3" ',$supersizedDir == 'flickr' ? ' checked="checked"' : '',' />';  
-    echo '<input type="radio" name="SZSource" id="SZSource" value="4" ',$supersizedDir == 'picasa' ? ' checked="checked"' : '',' />';  
-    echo '<input type="radio" name="SZSource" id="SZSource" value="5" ',$supersizedDir == 'smugmug' ? ' checked="checked"' : '',' />';  
-    echo '<input type="radio" name="SZSource" id="SZSource" value="6" ',$supersizedDir != 'wp-gallery' && $supersizedDir != 'ngg-gallery' && $supersizedDir != 'flickr'&& $supersizedDir != 'picasa'&& $supersizedDir != 'smugmug' && $supersizedDir !='' && !WPSupersized::is_xml_file($supersizedDir) ? ' checked="checked"' : '',' />';  
-    echo '<input type="radio" name="SZSource" id="SZSource" value="7" ', WPSupersized::is_xml_file($supersizedDir) == true ? ' checked="checked"' : '',' />';  
-    echo '</td></tr></table>';
 
     echo '<div id="SZMetaboxTabs"><ul>';
-    echo '<li><a href="#SZTab_none">None</a></li>';
-    echo '<li><a href="#SZTab_wpgallery">WP Media Gallery</a></li>';
-    echo '<li><a href="#SZTab_nggallery">NextGen Gallery</a></li>';
-    echo '<li><a href="#SZTab_flickr">Flickr</a></li>';
-    echo '<li><a href="#SZTab_picasa">Picasa</a></li>';
-    echo '<li><a href="#SZTab_smugmug">Smugmug</a></li>';
-    echo '<li><a href="#SZTab_custom_dir">Custom dir</a></li>';
-    echo '<li><a href="#SZTab_xml_file">XML file</a></li>';
+    echo '<li><input style="position: absolute;left: -9999px" type="radio" name="SZSource" id="SZSource-0" value="0" ',$supersizedDir == '' ? ' checked="checked"' : '',' /><a href="#SZTab_none">None</a></li>';
+    echo '<li><input style="position: absolute;left: -9999px" type="radio" name="SZSource" id="SZSource-1" value="1" ',$supersizedDir == 'wp-gallery' ? ' checked="checked"' : '',' /><a href="#SZTab_wpgallery">WP Media Gallery</a></li>';
+    echo '<li><input style="position: absolute;left: -9999px" type="radio" name="SZSource" id="SZSource-2" value="2" ',$supersizedDir == 'ngg-gallery' ? ' checked="checked"' : '',' /><a href="#SZTab_nggallery">NextGen Gallery</a></li>';
+    echo '<li><input style="position: absolute;left: -9999px" type="radio" name="SZSource" id="SZSource-3" value="3" ',$supersizedDir == 'flickr' ? ' checked="checked"' : '',' /><a href="#SZTab_flickr">Flickr</a></li>';
+    echo '<li><input style="position: absolute;left: -9999px" type="radio" name="SZSource" id="SZSource-4" value="4" ',$supersizedDir == 'picasa' ? ' checked="checked"' : '',' /><a href="#SZTab_picasa">Picasa</a></li>';
+    echo '<li><input style="position: absolute;left: -9999px" type="radio" name="SZSource" id="SZSource-5" value="5" ',$supersizedDir == 'smugmug' ? ' checked="checked"' : '',' /><a href="#SZTab_smugmug">Smugmug</a></li>';
+    echo '<li><input style="position: absolute;left: -9999px" type="radio" name="SZSource" id="SZSource-6" value="6" ',$supersizedDir != 'wp-gallery' && $supersizedDir != 'ngg-gallery' && $supersizedDir != 'flickr'&& $supersizedDir != 'picasa'&& $supersizedDir != 'smugmug' && $supersizedDir !='' && !WPSupersized::is_xml_file($supersizedDir) ? ' checked="checked"' : '',' /><a href="#SZTab_custom_dir">Custom dir</a></li>';
+    echo '<li><input style="position: absolute;left: -9999px" type="radio" name="SZSource" id="SZSource-7" value="7" ', WPSupersized::is_xml_file($supersizedDir) == true ? ' checked="checked"' : '',' /><a href="#SZTab_xml_file">XML file</a></li>';
     echo '</ul>';
     
     echo '<div id="SZTab_none">';
@@ -157,7 +145,7 @@ class WPSupersized_Metabox
    
    function save_custom_meta($post_id, $post) {
 
-       if (!wp_verify_nonce($_POST['custom_meta_box_nonce'], basename(__FILE__)))  
+       if (!wp_verify_nonce($_POST['custom_meta_box_nonce'], basename(__FILE__))) 
         return $post_id;  
     // check autosave  
     if (defined('DOING_AUTOSAVE') && DOING_AUTOSAVE)  
@@ -336,14 +324,15 @@ class WPSupersized_Metabox
     function output_tabs_script() {
         echo '<script type="text/javascript">
             jQuery(function() {
-            var selectedTab = jQuery(\'input:radio[name=SZSource]:checked\').val();
+            var selectedTab = jQuery(\'input:radio[name="SZSource"]:checked\').val();
             var tabOptions = {
-                selected: selectedTab
+                active: selectedTab
                 };
             jQuery("#SZMetaboxTabs").tabs(tabOptions);
-            jQuery("#SZMetaboxTabs").bind("tabsselect", function(event, tab) {
-                jQuery(\'[name="SZSource"\').removeAttr("checked"); // removes all checked attributes before setting the new one
-                jQuery(\'[name="SZSource"][value="\' + tab.index + \'"]\').attr(\'checked\',true); // sets the new source to "checked"
+            jQuery("#SZMetaboxTabs").tabs({activate: function(event, ui) {
+                jQuery(\'[id="SZSource-\' + ui.oldTab.index() + \'"]\').removeAttr("checked"); // removes the "checked" attribute from the previous source button
+                jQuery(\'[id="SZSource-\' + ui.newTab.index() + \'"]\').attr(\'checked\',true); // sets the new source to "checked"
+                }
                 });
             });
         </script>';

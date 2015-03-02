@@ -17,18 +17,26 @@ div.system-snapshot-wrap textarea#system-snapshot-textarea {
     height: 600px;
     overflow: auto;
     white-space: pre;
-    width: 850px;
+    width: 1500px;
+    max-width: 95%;
     color: #000;
     padding: 10px 0 10px 10px;
 }
 
 
 /* footer admin text */
-
 span#footer-thankyou {
+    background: url( ../../lib/img/reaktivlogo.png ) no-repeat center left;
     color: #333;
+    padding: 0 0 0 20px;
 }
 
-span#footer-thankyou img.reaktiv-icon {
-    margin: 0 5px -3px 0;
+/* footer admin text retina */
+@media only screen and (-webkit-min-device-pixel-ratio: 1.5), only screen and (-moz-min-device-pixel-ratio: 1.5), only screen and (-o-min-device-pixel-ratio: 3/2), only screen and (min-device-pixel-ratio: 1.5) {
+
+    span#footer-thankyou {
+        background: url( ../../lib/img/reaktivlogo@2x.png ) no-repeat center left;
+        background-size: 16px 16px;
+    }
+
 }
