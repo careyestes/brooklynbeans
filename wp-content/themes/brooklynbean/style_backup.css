@@ -1,0 +1,767 @@
+/*
+Theme Name: BrooklynBean
+Author: Carey Estes
+Version: 0.1
+Tags: Brooklyn Beans
+
+Colors Used:
+Dirty White: #e4e1d5
+Rich Chocolate: #481d0c 
+Bright Yellow: #f7ba00
+Red/Orange: #dd4d1f
+
+*/
+html, body { margin: 0;	padding: 0; height: 100%;}
+
+
+body, input, textarea
+{
+	color: #e4e1d5;    
+	font-family: "museo-sans",sans-serif;
+	line-height: 1.5;
+}
+h1, h2, h3, h4, h5, h6
+{ 
+	font-family: "museo-sans",sans-serif;
+	color:#e4e1d5;
+	font-weight: normal;
+}
+p {
+	font-family: "museo-sans",sans-serif;
+	font-size:16px;
+	margin: 4px 0 12px 0;
+}
+hr {
+	background-color: #999;
+	border: 0;
+	height: 1px;
+	margin-bottom: 1.5em;
+}
+
+pre {
+	font: 11px Monaco, monospace;
+	line-height: 1.5;
+	margin-bottom: 1.5em;
+}
+
+code {
+	font: 11px Monaco, monospace;
+}
+
+a {
+	color: #f7ba00;
+}
+
+a:hover {
+	color: #dd4d1f;
+}
+
+img {
+	border:0;
+}
+
+/* Styles that affect the entire layout of the page */
+#wrapper {
+	width:100%;
+	min-height: 100%; /* Required for sticky footer. Don't mess with it. */
+}
+
+#leftSpray {
+	position:absolute;
+	top:0;
+	left:0;
+	z-index:0;
+	width:300px;
+	height:695px;
+	background:url(img/spraypaint_leftSide.png) no-repeat top left;
+}
+
+#main {
+}
+
+#main p {
+	/*width:650px;*/
+}
+
+div#container
+{
+	margin: 4px 4px 4px 4px;
+}
+div#content
+{
+	
+}
+
+
+/* Header Menu Styles */
+#header {
+	position:relative;
+	margin-bottom:160px;
+}
+
+#mainNavLinks {
+	position:relative;
+}
+
+#header #access {
+	position:relative;
+	padding:20px 0 0 10px;
+}
+
+#header .rightSide {
+	position:absolute;
+	top:0;
+	right:0;
+	width:460px;
+	height:695px;
+	background:url(img/spraypaint_rightSide.png) no-repeat top right;
+	padding:20px 10px 0 0;
+	text-align:right;
+}
+
+#header .rightSide .menu {
+	position:relative;
+	padding:20px 0 0 0;
+	z-index:10;
+}
+
+#header .rightSide .menu > ul {
+	float:right;
+}
+
+#header #centerLogo {
+	position:absolute;
+	top:0;
+	left:0;
+	right:0;
+	background:url(img/spraypaint_center.png) no-repeat center center;
+	width:800px;
+	min-width:800px;
+	height:445px;
+	margin:0 auto;
+}
+
+#header .logoBox {
+	width:537px;
+	margin:5px auto 0;
+}
+
+#header .menu {
+	position:relative;
+	z-index:10;
+	width:460px;	
+	padding:20px 0 0 20px;
+}
+
+#header .menu ul
+{
+    list-style: none;
+    margin: 0;
+}
+
+#header .menu ul ul
+{
+    display: none;
+}
+
+#header .menu li, #header #access li {
+	position:relative;
+    display: inline-block;
+	padding: 8px 5px 5px;
+	margin-right:25px;
+}
+
+#header .menu ul > li, #header #access ul > li {
+	height:25px;
+}
+
+#header .menu ul > li ul.children li, #header #access ul > li ul.children li {
+	height: auto;
+	padding: 10px 5px;
+	text-align: left;
+}
+
+
+#header .menu li:before, #header #access li:before {
+	left:-7px;
+}
+
+#header .menu li:after, #header #access li:after {
+	right:-7px;
+}
+
+#header .menu li ul.children li:before, #header .menu li ul.children li:after, #header #access li ul.children li:before, #header #access li ul.children li:after {
+	background:none;
+}
+
+
+#header #access li ul.children, #header .rightSide li ul.children {
+	position:absolute;
+	top:35px;
+	left:-9px;
+	min-width:152px;
+	text-align:left;
+}
+
+#header .menu a, #header #access a {
+	font-family: "museo-sans",sans-serif;
+	font-weight:700;
+	font-size: 20px;
+	text-decoration: none;
+	color: #fff;
+	line-height:20px;
+}
+
+#header #access a:hover, #header .menu a:hover {
+	color:#dd4d1f;
+}
+
+.menu-item a:hover
+{
+	color: #5d8a05;
+}
+
+#header #access ul.children {
+	display:none;
+}
+
+#header #access ul.children li {
+	width:230px;
+	margin:5px 0 0 0;
+	padding:0 0 0 10px;
+}
+
+/* Footer Styles */
+
+#footer {
+	position:fixed;
+	bottom:0;
+	left:0;	
+	width:100%;
+	margin-top: -125px; /* negative value of footer height */
+	height: 125px;
+	clear:both;
+} 
+
+#footer h6 img {
+	margin: 0 0 0 30px;
+}
+
+#footerBanner {
+	position:relative;
+	z-index:5;
+	height:25px;
+	background-color:#e4e1d5;
+	clear:both;
+}
+
+#site-info {
+	width:80%;
+	margin:0 auto;
+}
+
+.copyright {
+	font-size:10px;
+	color:#502626;
+	text-align:center;
+}
+
+#footer h1 {
+	font-size:22px;
+}
+
+/* Roasts Link Styling */
+
+#bottomNavigation {
+	height:100px;
+	position:relative;
+	width:1021px;
+	min-width:800px;
+	margin:0 auto;
+	left:1px;
+}
+
+.navLinks {
+	position:relative;
+	z-index:10;
+	display:block;
+	float:left;
+	width:200px;
+	height:100px;
+	margin:0 73px 0 0;
+	text-align:center;
+	text-transform:uppercase;
+	color:#e5e1d6;
+	cursor:pointer;
+}
+
+#footerHoverBox {
+	width:1024px;
+	margin:0 auto;
+}
+
+.hoverBlock {
+	position:absolute;
+	bottom:0;
+	width:196px;
+	height:135px;
+	background:#481d0c;
+	display:none;
+}
+
+.roastHover {
+	margin:0 0 0 3px;
+}
+
+.videoHover {
+	margin:0 0 0 278px;
+}
+
+.favHover {
+	margin:0 0 0 551px;
+}
+
+.passionHover {
+	margin:0 0 0 825px;
+}
+
+#roastsLink {
+	background:url(img/bottomNav/cup.png) no-repeat bottom center;
+}
+
+#roastsLink h1, #videoLink h1, #favLink h1, #passionLink h1 {
+	color:#e4e1d5;
+	transition:color 0.25s ease-in; 
+	-webkit-transition:color 0.25s ease-in; 
+	-moz-transition:color 0.25s ease-in; 
+	-o-transition:color 0.25s ease-in; 
+}
+
+#roastsLink h1:hover, #videoLink h1:hover, #favLink h1:hover, #passionLink h1:hover {
+	color:#f7ba00;
+}
+
+#videoLink {
+	background:url(img/bottomNav/video.png) no-repeat bottom center;
+}
+
+#favLink {
+	background:url(img/bottomNav/heart.png) no-repeat bottom center;
+}
+
+#passionLink {
+	background:url(img/bottomNav/bean.png) no-repeat bottom center;
+}
+
+.popUpContent {
+	position:absolute;
+	top:100%;
+	left:0;
+	right:0;
+	margin:0 auto;
+	display:none;
+	width:1020px;
+	height:auto;
+	min-height:80%;
+	background:#481d0c;
+	-moz-box-shadow: 0 0 10px #150a01;
+	-webkit-box-shadow: 0 0 10px #150a01;
+	box-shadow: 0 0 10px #150a01;
+}
+
+.popUpContent p {
+	color:#e4e1d5;
+}
+
+.closeButton {
+	position:absolute;
+	top:-2px;
+	right:-2px;
+	background:url(img/fancybox_sprite.png) 0 0;
+	width:38px;
+	height:33px;
+	z-index:50;
+	cursor:pointer;
+}
+
+
+/* Roasts Page Styling */
+
+.roastBox {
+	position:relative;
+	display:block;
+	width:205px;
+	height:125px;
+	float:left;
+	padding:25px;
+	text-align:center;
+	overflow:hidden;
+	transition:background-color 0.25s ease-in; 
+	-webkit-transition:background-color 0.25s ease-in; 
+	-moz-transition:background-color 0.25s ease-in; 
+	-o-transition:background-color 0.25s ease-in; 
+	cursor:pointer;
+}
+
+.roastBox:hover {
+	background-color:#481d0c;
+}
+
+.roastThumbnail {
+	position:absolute;
+	top:0;
+	left:75px;
+	width:100px;
+	height:100px;
+	overflow:hidden;
+	margin:0 auto;
+	padding:0 0 5px;
+}
+
+.roastBox .hovered {
+	position:absolute;
+	top:-102px;
+	left:75px;
+	width:100px;
+	height:100px;
+	display:none;
+}
+
+.roastBox p {
+	width:205px;
+	font-family: "museo-sans",sans-serif;
+	font-weight:700;
+	text-transform:uppercase;
+	margin:90px 0 0;
+}
+
+.roastDescripBox {
+	position:relative;
+	min-height:80%;
+	background:#481d0c;
+}
+
+.contentBox {
+	position:absolute;
+	top:0;
+	left:0;
+	width:920px;
+	padding:20px 50px;
+	display:none;
+}
+
+.roastDescripBox .contentBox .roastParagraphBox {
+	width:500px;
+	float:left;
+}
+
+.roastDescripBox .contentBox .roastTypeImageBox {
+	width:420px;
+	margin-left:520px;
+	text-align:center;
+}
+
+.roastParagraphBox h1 {
+	font-size:20px;
+	font-weight:900;
+	line-height:25px;
+}
+
+#main .roastParagraphBox p {
+	font-size:14px;
+	width:480px;
+}
+
+.roastDescripBox .contentBox .roastTypeImageBox .wp-caption-text {
+	text-transform:uppercase;
+	font-size:14px;
+	line-height:15px;
+}
+
+#main .roastDescripBox .contentBox .roastTypeImageBox .wp-caption p {
+	width:99px;
+}
+
+.roastDescripBox .contentBox .roastTypeImageBox .alignleft
+{
+	/* Style for left-aligned images in posts */
+	padding: 8px 45px 8px 0;
+	float: left;
+	min-width: 150px;
+}
+
+#comingSoon {
+	display:none;
+}
+
+/* Video Page Styling */
+#video {
+	padding:20px;
+}
+
+#video .alignleft {
+	padding-top:0;
+	padding-bottom:20px;
+}
+
+#fav {
+	padding:20px;
+}
+
+#fav h6 img {
+	padding-bottom:20px;
+}
+
+/*  Styling */
+
+#passion h1, #passion h2 {
+	padding:0 20px;
+	clear:both;
+}
+
+#passion h6 {
+	padding:0;
+}
+
+#passion p {
+	padding:20px;
+}
+
+/* Flat Page styles */
+
+.flatPage {
+	position: absolute;
+	top: 20%;
+	min-height: 800px;
+	height:100%;
+	width: 1020px;
+	left: 0;
+	right: 0;
+	margin: 0 auto;
+	background: url(img/popUpBg.png);
+	color:#e4e1d5;
+}
+
+.flatPage h1 {
+	text-transform:uppercase;
+	padding-bottom:10px;
+}
+
+.flatPage h1.entry-title {
+	display:inline;
+	background:#221e1f;
+	color:#ce5020;
+	padding:5px 20px 5px 30px;
+}
+
+.flatPage ul {
+	margin-left:25px;
+}
+
+.flatPage .entry-content .alignleft {
+	padding-right:20px;
+	padding-bottom:20px;
+}
+
+
+/* Entry and Page Style */
+h1.entry-title
+{
+	padding:20px 0 5px 30px;
+	
+}
+h2.entry-title
+{
+	
+}
+h2.entry-title a
+{
+	
+}
+h1.page-title
+{
+	
+}
+
+/* Media Alignment */
+.alignright
+{
+	/* Style for right-aligned images in posts */
+	padding: 8px 0 8px 8px;
+	float: right;
+}
+.alignleft
+{
+	/* Style for left-aligned images in posts */
+	padding: 8px 8px 8px 0;
+	float: left;
+}
+
+/* Entry Content */
+.entry-content
+{
+	padding:0 30px 30px;
+}
+
+.entry-content p {
+	/*max-width:650px;*/
+}
+
+.entry-content h1, h2, h3, h4, h5
+{
+	
+}
+
+.entry-content h2 {
+	padding:0 0 10px;
+}
+
+.popUpContent h2 {
+	line-height:25px;
+	margin:10px 0 20px;
+}
+
+.entry-content ol li
+{
+	
+}
+
+.entry-utility
+{
+	/* Style for the entry utility, which sits below a post and provides info like categories, tags, feeds, and an edit link (for authors) */
+}
+.entry-meta
+{
+	/* Style for the entry metadata (author, etc.) */
+}
+.skip-link
+{
+	/* Style for the skip link */
+	/*position: absolute;
+	left: -9000px;*/
+}
+.navigation
+{
+	/* Style for the navigation links (next/previous post) on a given post */
+}
+
+
+/*** CONTENT : COMMENTS ***/
+
+div#comments
+{
+	/* Style that affects the DIV containing all the comments */
+}
+.comments h3
+{
+	/* H3 header style for comments */
+}
+.comments ol
+{
+	/* Comments are displayed as ordered lists by default, so you want to style that list so it looks the way you want */
+}
+.comments ol li
+{
+	/* Style each list item in the comments ordered list */
+}
+.comments img
+{
+	/* Style for the user avatar beside each comment */
+	float: left;
+	margin: 0 12px 8px 0;
+}
+.comments .comment
+{
+	/* Style that applies to each individual comment in a series of comments */
+}
+
+.children ul li
+{
+	/* A style that refers to the children (as in, responses to) any given comment */
+}
+
+.comment-reply-link
+{
+	/* Style for the "Reply" link on a comment */
+}
+.comment-meta
+{
+	/* Style for metadata for a comment */
+}
+div#respond
+{
+	/* DIV that contains the comment response form */
+}
+div#respond h3
+{
+	/* H3 header for the comment response form */
+}
+
+
+/*** CONTENT : SIDEBAR ***/
+div#primary
+{
+	/* Primary Widget Area DIV */
+}
+div#secondary
+{
+	/* Secondary Widget Area DIV */
+}
+.widget-area
+{
+	/* Class that applies to BOTH widget areas */
+}
+.xoxo
+{
+	/* Class that applies to each item in each widget area (an unordered list class) */
+}
+
+/* Admin */
+
+.edit-link {
+	font-size:10px;
+	text-transform:uppercase;
+}
+
+/* Content Editor Styles */
+.paragraph {
+	/*max-width:670px;*/
+	padding:0 0 10px 0;
+}
+
+/* Extras */
+
+.transparify {
+	zoom: 1;
+	filter: alpha(opacity=90);
+	opacity: 0.905;
+}
+
+.divider {
+	width:90%;
+	height:1px;
+	background-color:#614c44;
+	clear:both;
+	margin:20px auto;
+}
+
+.flatPage .divider {
+	width:90%;
+	height:1px;
+	background-color:#614c44;
+	clear:both;
+	margin:0 auto 20px;
+}
+
+img.typekit-badge[style] {
+	display:none !important;
+}
+
+/*Opera Fix*/
+body:before {
+	content:"";
+	height:100%;
+	float:left;
+	width:0;
+	margin-top:-32767px;/
+}

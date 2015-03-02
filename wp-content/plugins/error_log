@@ -1,0 +1,1 @@
+[30-May-2013 20:31:44] PHP Fatal error:  Call to undefined function  add_action() in /home1/karenspl/public_html/brooklynbeans/wp-content/plugins/hello.php on line 60
