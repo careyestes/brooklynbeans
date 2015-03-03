@@ -1356,10 +1356,10 @@ tr.slp_map_search_results a:hover {
 	border-top: 4px #ce5020 solid;
 	padding-bottom: 10px;
 }
-.privacyPolicy {
+/*.privacyPolicy {
 	margin-left: 8px;
 	padding-left: 4px;
-}
+}*/
 .feedbackSuccessBg {
 	position: fixed;
 	top: 0;
@@ -1408,10 +1408,17 @@ tr.slp_map_search_results a:hover {
 }
 
 /* Gravity Styles */
+#main .gform_wrapper ul li.gfield {
+	margin-bottom: 1.6em;
+	padding: 0.5em;
+}
+
 #main .gform_wrapper .top_label input {
 	background: #ddd;
 	border: 0;
 	padding: 0.5em;
+	font-size: 16px;
+	max-width: 560px;
 }
 #main .gform_wrapper .top_label input.medium {
 	width: 30%;
@@ -1426,6 +1433,14 @@ tr.slp_map_search_results a:hover {
 	font-size: 16px;
 }
 
+/* Select fields */
+#main .gform_wrapper.gf_browser_chrome .ginput_complex select, #main .gform_wrapper.gf_browser_chrome .ginput_complex .ginput_right select {
+	width: auto !important;
+	padding: 0;
+	margin: 0;
+	font-size: 16px;
+}
+
 #main .gform_wrapper .gform_footer input.button, #main .gform_wrapper .gform_footer input[type=submit] {
 	padding: 3px 10px;
 	margin-top:10px;
@@ -1435,4 +1450,28 @@ tr.slp_map_search_results a:hover {
 	font-size: 14px;
 	cursor: pointer;
 	text-transform: uppercase;
+}
+
+/* Stop floats */
+#main .gform_wrapper .ginput_complex .ginput_left, #main .gform_wrapper .ginput_complex .ginput_right, #main .gform_wrapper .ginput_complex .ginput_full {
+	width: auto;
+	float: none;
+	clear: both;
+}
+
+
+/* Errors */
+#main .gform_wrapper li.gfield.gfield_error, #main .gform_wrapper li.gfield.gfield_error.gfield_contains_required.gfield_creditcard_warning {
+	background: rgba(247,186,0, 0.8);
+}
+
+/* Confirmation */
+#main .gform_confirmation_wrapper {
+	margin: 1em 0;
+	padding: 1em;
+	border: 1px solid #444;
+	background: #f7ba00;
+	color: #444;
+	border-radius: 10px;
+	font-size: 1.2em;
 }
