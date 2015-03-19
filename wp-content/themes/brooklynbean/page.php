@@ -1,3 +1,10 @@
+<?php
+  $isAmbassador = rwmb_meta("bbr_is_public");
+  if($isAmbassador == 'private' && !is_user_logged_in()) {
+  	wp_redirect( get_site_url()."/ambassador-login");
+		exit;
+  }
+?>
 <?php get_header(); ?>
  		
         <div class="flatPage">

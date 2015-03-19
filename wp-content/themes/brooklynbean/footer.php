@@ -45,9 +45,9 @@
                     </div>
                     <div class="footerCol">    	
                     <!--<a href="#">Sitemap</a> <br />-->
-                    <a href="http://www.brooklynbeans.com/contact">Contact Us</a><br />
-                    <a href="http://www.brooklynbeans.com/wholesale-distributor-form">Wholesale &amp; Distribution</a><br />
-                    <a href="http://www.brooklynbeans.com/faq">FAQ</a><br />
+                    <a href="<?php echo get_site_url(); ?>/contact">Contact Us</a><br />
+                    <a href="<?php echo get_site_url(); ?>/ambassador-login">Ambassador Login</a><br />
+                    <a href="<?php echo get_site_url(); ?>/faq">FAQ</a><br />
                 </div>
                     
                 </div>

@@ -341,6 +341,25 @@ $meta_boxes[] = array(
 		)
 	)
 );
+
+$meta_boxes[] = array(
+	'id' => 'bbr_privacy_option',      
+	'title' => 'Intranet',  
+	'pages' => array( 'page' ), 	
+	'context' => 'side',                  
+	'priority' => 'low',
+	'required' => 1,                   
+	'fields' => array( 
+		array(
+			'id' => $prefix.'is_public',
+			'name' => 'Ambassadors Only?',
+			'desc' => 'If checked private, only logged in distributors can access this page.',
+			'type' => 'radio',
+			'options' => array('public' => 'Public', 'private' => 'Private'),
+			'class' => 'distributor_radio_button'
+		)
+	)
+);
 /********************* META BOX REGISTERING ***********************/
 
 /**
