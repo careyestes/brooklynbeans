@@ -46,7 +46,7 @@
                     <div class="footerCol">    	
                     <!--<a href="#">Sitemap</a> <br />-->
                     <a href="<?php echo get_site_url(); ?>/contact">Contact Us</a><br />
-                    <a href="<?php echo get_site_url(); ?>/ambassador-login">Ambassador Login</a><br />
+                    <a href="<?php echo get_site_url(); ?>/ambassadors">Ambassador Login</a><br />
                     <a href="<?php echo get_site_url(); ?>/faq">FAQ</a><br />
                 </div>
                     

@@ -344,19 +344,19 @@ $meta_boxes[] = array(
 
 $meta_boxes[] = array(
 	'id' => 'bbr_privacy_option',      
-	'title' => 'Intranet',  
+	'title' => 'Ambassadors Section',  
 	'pages' => array( 'page' ), 	
 	'context' => 'side',                  
-	'priority' => 'low',
-	'required' => 1,                   
+	'priority' => 'low',                  
 	'fields' => array( 
 		array(
 			'id' => $prefix.'is_public',
-			'name' => 'Ambassadors Only?',
-			'desc' => 'If checked private, only logged in distributors can access this page.',
+			'name' => '',
+			'desc' => 'If checked private, only logged-in ambassadors can access this page.',
 			'type' => 'radio',
 			'options' => array('public' => 'Public', 'private' => 'Private'),
-			'class' => 'distributor_radio_button'
+			'class' => 'distributor_radio_button',
+			'std' => 'public'
 		)
 	)
 );
@@ -415,3 +415,46 @@ function restyle_comments($comment, $args, $depth) {
 		<div class="commentBottom"></div>
 <?php
         }
+
+// Creates a new level of user for ambassadors
+add_role('bbr_ambassadors', 'Ambassadors', array(
+	'delete_others_pages' => false,
+	'delete_others_posts' => false,
+	'delete_pages' => false,
+	'delete_posts' => false,
+	'delete_private_pages' => false,
+	'delete_private_posts' => false,
+	'delete_published_pages' => false,
+	'delete_published_posts' => false,
+	'edit_others_pages' => false,
+	'edit_others_posts' => false,
+	'edit_pages' => false,
+	'edit_posts' => false,
+	'edit_private_pages' => false,
+	'edit_private_posts' => false,
+	'edit_published_pages' => false,
+	'edit_published_posts' => false,
+	'edit_theme_options' => false,
+	'gravityforms_create_form' => false,
+	'gravityforms_delete_entries' => false,
+	'gravityforms_delete_forms' => false,
+	'gravityforms_edit_entries' => false,
+	'gravityforms_edit_entry_notes' => false,
+	'gravityforms_edit_forms' => false,
+	'gravityforms_export_entries' => false,
+	'gravityforms_feed' => false,
+	'gravityforms_view_entries' => false,
+	'gravityforms_view_entry_notes' => false,
+	'list_users' => false,
+	'manage_categories' => false,
+	'manage_links' => false,
+	'moderate_comments' => false,
+	'publish_pages' => false,
+	'publish_posts' => false,
+	'read' => true,
+	'read_private_pages' => false,
+	'read_private_posts' => false,
+	'upload_files' => false,
+	'view_stats' => false,
+	'show_admin_bar' => false
+));
